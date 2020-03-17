@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="pda.launchType">
+<stringAttribute key="ATTR_CHIP_FAMILY" value="CS485XX"/>
+<stringAttribute key="ATTR_SELECTED_DEBUG_INFO_TYPE" value="DEBUG_WITHOUT_PROJECT"/>
+<stringAttribute key="ATTR_SELECTED_TARGET_TYPE" value="TARGET_TYPE_BOARD"/>
+</launchConfiguration>

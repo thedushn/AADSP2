@@ -1,0 +1,293 @@
+============= BUILDING STARTED ============
+  Project: WavTemplate
+===========================================
+Compiling .c files...
+   [delete] Deleting: C:\Users\thedushn\Desktop\Zadatak\SULDWavTemplate\output\standalone\src\main.O
+   [delete] Deleting: C:\Users\thedushn\Desktop\Zadatak\SULDWavTemplate\output\standalone\src\main.s
+C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c
+C:/CirrusDSP/bin/ccc2 C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c
+ -S
+ -ruf
+ -fcse
+ -fprc
+ -fcompact
+ -funsafe-loop-optimizations
+ -g
+ -edi
+ -emit-hints
+ -ira
+ -fconst-pool=X
+ -fno0init
+ -femit-asm-struct
+ -cdl
+ -D_TOOLS_VERSION_=0x0701
+ -D_SLOT_=0
+ -D_OVLY_=standalone
+ -D_OVLY_REVISION_=020000
+ -D_VERSION_=00
+ -D_DSP_=a
+ -D_COMMON_INC_PATH_=C:/CirrusDSP/crystal32/common/inc/
+ -D_TARGET_FAMILY_=crystal32
+ -D_MUI_VERSION_=020000
+ -IC:/CirrusDSP/include/
+ -IC:/CirrusDSP/include/dsplib/
+ -IC:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/inc/
+ -oC:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/src/main.s
+ -D_LOCAL_SRC_PATH_=src/
+ -D_LOCAL_INC_PATH_=inc/
+ -D_ROUTER_INC_PATH_=rom_inc/
+     [exec] "C:/CirrusDSP/include/stdio.h", line 8: warning #1108: #warning directive: Functionality of stdio.h header file is not fully supported
+     [exec]   #warning Functionality of stdio.h header file is not fully supported
+     [exec]    ^
+     [exec] 
+     [exec] "C:/CirrusDSP/include/string.h", line 8: warning #1108: #warning directive: Functionality of string.h header file is not fully supported
+     [exec]   #warning Functionality of string.h header file is not fully supported
+     [exec]    ^
+     [exec] 
+     [exec] "C:/CirrusDSP/include/string.h", line 13: warning #303: typedef name has already been declared (with same type)
+     [exec]   typedef unsigned int size_t;
+     [exec]                        ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 44: warning #31: fixed point constant is out of range
+     [exec]   		state.delay[0][i] = 0.0;
+     [exec]   		                    ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 45: warning #31: fixed point constant is out of range
+     [exec]   		state.delay[1][i] = 0.0;
+     [exec]   		                    ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 48: warning #516: a value of type "__memX DSPfract *" cannot be assigned to an entity of type "DSPfract *"
+     [exec]   	state.writePtr[0] = state.delay[0] + DELAY_SIZE - 1;
+     [exec]   	                  ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 49: warning #516: a value of type "__memX DSPfract *" cannot be assigned to an entity of type "DSPfract *"
+     [exec]   	state.writePtr[1] = state.delay[1] + DELAY_SIZE - 1;
+     [exec]   	                  ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 51: warning #516: a value of type "__memX DSPfract *" cannot be assigned to an entity of type "DSPfract *"
+     [exec]   	state.readPtr[0] = state.delay[0] + DELAY_SIZE - 1 - 48;
+     [exec]   	                 ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 52: warning #516: a value of type "__memX DSPfract *" cannot be assigned to an entity of type "DSPfract *"
+     [exec]   	state.readPtr[1] = state.delay[1] + DELAY_SIZE - 1 - 48;
+     [exec]   	                 ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 75: warning #146: a value of type "DSPfract *__memX *" cannot be used to initialize an entity of type "DSPfract **"
+     [exec]   		DSPfract **write = state.writePtr;
+     [exec]   		                   ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 76: warning #146: a value of type "DSPfract *__memX *" cannot be used to initialize an entity of type "DSPfract **"
+     [exec]   		DSPfract **read = state.readPtr;
+     [exec]   		                  ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 77: warning #146: a value of type "__memX DSPfract (*)[64]" cannot be used to initialize an entity of type "DSPfract (*)[64]"
+     [exec]   		DSPfract (*delay)[DELAY_SIZE] = state.delay;
+     [exec]   		                                ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 196: warning #189: use of "=" where "==" may have been intended
+     [exec]          			else if (state.mode = MODE_3_2_0)
+     [exec]          			         ^
+     [exec] 
+     [exec] WARNING: '-unsafe-loop-optimization' is ignored when '-g' option is used!
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 63: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 64: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 65: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 66: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 67: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 68: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 69: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 70: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 75: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 76: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 77: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 139: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 141: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 142: warning #4007: Pointer to unspecified memory zone.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 220: info: Hardware loop is not emitted due to: 
+     [exec] Upper bound and initial loop index value are not constant.
+     [exec] Make them constant or try using -funsafe-loop-optimizations option.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 216: info: Hardware loop is not emitted due to: 
+     [exec] Upper bound and initial loop index value are not constant.
+     [exec] Make them constant or try using -funsafe-loop-optimizations option.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 63: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 64: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 65: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 66: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 67: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 68: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 69: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 70: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 75: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 76: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 77: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 92: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 99: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 100: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 108: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 115: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 116: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 119: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 123: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 124: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 125: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 126: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 44: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 45: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 163: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 216: info: Call to runtime function __div. Look at the separate document for information how to avoid this call.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 223: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 234: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 236: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 241: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 244: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 247: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 252: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 255: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 260: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 262: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 264: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 269: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 272: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 274: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 277: info: SRS is used at this line.
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/src/main.c", line 280: info: SRS is used at this line.
+     [exec] 
+     [exec] FRONT END TIME: 0 seconds
+     [exec] BACK  END TIME: 1 seconds
+     [exec] 
+Assembling .a and .s files...
+C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/src/main.s
+C:/CirrusDSP/bin/casm C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/src/main.s
+ --debug
+ -c
+ -s
+ -e
+ -D_TOOLS_VERSION_=0x0701
+ -D_SLOT_=0
+ -D_OVLY_=standalone
+ -D_OVLY_REVISION_=020000
+ -D_VERSION_=00
+ -D_DSP_=a
+ -D_COMMON_INC_PATH_=C:/CirrusDSP/crystal32/common/inc/
+ -D_TARGET_FAMILY_=crystal32
+ -D_MUI_VERSION_=020000
+ -IC:/CirrusDSP/include/
+ -IC:/CirrusDSP/include/dsplib/
+ -IC:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/inc/
+ -lC:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/src/main.lst
+ -oC:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/src/main.O
+ -iC:/CirrusDSP/crystal32/common/inc/base.h
+ -D_LOCAL_SRC_PATH_=src/
+ -D_LOCAL_INC_PATH_=inc/
+ -D_ROUTER_INC_PATH_=rom_inc/
+Linking files...
+C:/CirrusDSP/bin/clink
+ -oC:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/WavTemplate.img
+ -fC:/CirrusDSP/crystal32/memory_maps/v00.mem.xml
+ --output_type=RAM
+ --overlay_type=standalone
+ -lC:/CirrusDSP/lib/
+ -lC:/CirrusDSP/lib/dsplib
+ -lC:/CirrusDSP/lib/dsplib/crystal32/
+C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/src/main.O
+     [exec] Warning #507: Unknown class: Y_OS_CC_GLOBALS
+     [exec]             for the segment: CC_HEAPSTEAL_VALUES
+     [exec]             from the module: C:\CirrusDSP\lib\dsplib\crystal32\cl_heapsteal.O
+     [exec] 
+     [exec] List of linked library's modules:
+     [exec] C:\CirrusDSP\lib\crt0.o
+     [exec] C:\CirrusDSP\lib\div.o
+     [exec] C:\CirrusDSP\lib\exit.o
+     [exec] C:\CirrusDSP\lib\memset_x.o
+     [exec] C:\CirrusDSP\lib\simulator_stack.o
+     [exec] C:\CirrusDSP\lib\strcpy_x2x.o
+     [exec] C:\CirrusDSP\lib\udiv.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_bits_per_sample.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_close.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_frame_rate.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_getnchannels.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_number_of_frames.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_open.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_recvsample.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavwrite_close.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavwrite_open.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavwrite_sendsample.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\printf.o
+Creating .uld file...
+C:/CirrusDSP/bin/lnkuld
+ -ja
+ C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/WavTemplate.img
+ C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/WavTemplate.uld
+     [exec] 
+     [exec] Reading file: C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/WavTemplate.img ...
+     [exec] 	Processed 772 line(s).
+     [exec] 
+     [exec] Writing output to file: C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/WavTemplate.uld ...
+     [exec] 
+     [exec] Done!
+     [exec] 
+     [exec] Writing output to file: C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/WavTemplate.uldb ...
+     [exec] 
+     [exec] Done!
+     [exec] 
+     [exec] Writing output to file: C:/Users/thedushn/Desktop/Zadatak/SULDWavTemplate/output/standalone/WavTemplate.uldc ...
+
+BUILD SUCCESSFUL
+Total time: 4 seconds

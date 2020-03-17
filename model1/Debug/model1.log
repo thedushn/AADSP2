@@ -1,0 +1,6 @@
+﻿  WAVheader.cpp
+c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model1\wavheader.cpp(84): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+  main.cpp
+  Generating Code...
+  model1.vcxproj -> C:\Users\thedushn\Desktop\AADSP2\new_project\Zadatak\Debug\model1.exe
