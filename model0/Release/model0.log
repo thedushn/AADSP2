@@ -1,0 +1,9 @@
+﻿  iir.c
+  main.cpp
+  WAVheader.cpp
+WAVheader.cpp(84): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+  Generating code
+  All 14 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  model0.vcxproj -> C:\Users\thedushn\Desktop\AADSP2\new_project\Zadatak\New folder\AADSP2\Release\model0.exe

@@ -1,176 +1,209 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include <stdlib.h>
 #include <string.h>
-
+#include <limits.h>
 #include <math.h>
 #include "WAVheader.h"
+#include "common.h"
 
 #define BLOCK_SIZE 16
-#define NUM_CHANNELS 6
-#define DELAY_SIZE 64 // prvi stepen 2 veci od 48 (broj odbiraka ekvivalentan 1ms)
+//broj kanala 
+#define NUM_CHANNELS 8
 
-#define LEFT 0
-#define CENTER 1
-#define RIGHT 2
-#define LEFT_SUR 3
-#define RIGHT_SUR 4
-#define LFE 5
+DSPfract z_xL[2];
+DSPfract z_yL[2];
+DSPfract z_xH[2];
+DSPfract z_yH[2];
+DSPfract coeffL[4] = { 0,0,0,0 };
+DSPfract coeffH[4] = { 0,0,0,0 };
 
-enum Mode
-{
-	MODE_2_0_0,
-	MODE_2_0_1,
-	MODE_0_2_0,
-	MODE_0_2_1,
-	MODE_3_2_0
-};
+DSPfract K1;
+DSPfract K2;
+DSPfract KHP; 
+DSPfract KLP; 
+DSPfract alpha1;
+DSPfract alpha2;
+// Enable
+static DSPint enable = 1;
 
-struct State
-{
-	double gainL;
-	double gainR;
-	double gainH;
-	double delay[2][DELAY_SIZE];
-	double *writePtr[2];
-	double *readPtr[2];
-	Mode mode;
-};
-State state;
+DSPfract sampleBuffer[NUM_CHANNELS][BLOCK_SIZE];
 
-double sampleBuffer[NUM_CHANNELS][BLOCK_SIZE];
 
-void stateInit(double dbL, double dbR, double dbH)
-{
-	int i;
-	for (i = 0; i < DELAY_SIZE; i++)
-	{
-		state.delay[0][i] = 0;
-		state.delay[1][i] = 0;
+
+
+inline void clip(DSPfract *x) {
+	if (*x > 1) {
+		*x = 1;
 	}
-
-	state.writePtr[0] = state.delay[0] + DELAY_SIZE - 1;
-	state.writePtr[1] = state.delay[1] + DELAY_SIZE - 1;
-
-	state.readPtr[0] = state.delay[0] + DELAY_SIZE - 1 - 48;
-	state.readPtr[1] = state.delay[1] + DELAY_SIZE - 1 - 48;
-
-	state.gainL = pow(10.0, (dbL / 20.0));
-	state.gainR = pow(10.0, (dbR / 20.0));
-	state.gainH = pow(10.0, (dbH / 20.0));
+	else if (*x < -1) {
+		*x = -1;
+	}
 }
 
-void processing()
+
+
+
+
+
+
+
+void calculateShelvingCoeffT(DSPfract c_alpha, DSPfract* output)
 {
-	static const double m2dB = pow(10.0, (-2.0 / 20.0));
-	static const double m6dB =pow(10.0, (-6.0 / 20.0));
+	DSPfract t1, t2;
 
-	double *bufferLeft = sampleBuffer[0];
-	double *bufferRight = sampleBuffer[1];
-	double *left = sampleBuffer[LEFT];
-	double *right = sampleBuffer[RIGHT];
-	double *center = sampleBuffer[CENTER];
-	double *left_sur = sampleBuffer[LEFT_SUR];
-	double *right_sur = sampleBuffer[RIGHT_SUR];
-	double *lfe = sampleBuffer[LFE];
+	t1 = 1 * c_alpha;
+	clip(&t1);
 
-	int i;
+	t2 = -(1 * c_alpha);
+	clip(&t2);
+
+	output[0] = t1;
+	output[1] = -1;
+	output[2] = 1;
+	output[3] = t2;
+}
+
+
+
+
+DSPfract first_order_IIR(DSPfract input, DSPfract* coefficients, DSPfract* z_x, DSPfract* z_y)
+{
+	DSPfract temp;
+
+	z_x[0] = input; /* Copy input to x[0] */
+
+	temp = (coefficients[0] * z_x[0]);   /* B0 * x(n)     */
+	temp += (coefficients[1] * z_x[1]);    /* B1 * x(n-1) */
+	temp -= (coefficients[3] * z_y[1]);    /* A1 * y(n-1) */
+
+
+	z_y[0] = (temp);
+
+	/* Shuffle values along one place for next time */
+
+	z_y[1] = z_y[0];   /* y(n-1) = y(n)   */
+	z_x[1] = z_x[0];   /* x(n-1) = x(n)   */
+
+	return (temp);
+}
+
+
+
+DSPfract shelvingLP(DSPfract input, DSPfract* coeff, DSPfract* z_x, DSPfract* z_y) {
+
+	DSPfract filtered_input;
+	DSPfract accum;
+
+	filtered_input = first_order_IIR(input, coeff, z_x, z_y);
+	accum = (input + filtered_input) / 2.0;
+	accum += (input - filtered_input)*K1 ;
+	clip(&accum);
+
+
+	return accum;
+
+}
+
+DSPfract shelvingHP(DSPfract input, DSPfract* coeff, DSPfract* z_x, DSPfract* z_y) {
+
+	DSPfract filtered_input;
+	DSPfract accum;
+
+	filtered_input = first_order_IIR(input, coeff, z_x, z_y);
+	accum = (input - filtered_input) / 2.0;
+	accum += (input + filtered_input)*K2;
+	clip(&accum);
+
+
+	return accum;
+
+}
+
+void processing() {
+
+	DSPint i;
+	DSPint k;
+
+
 	for (i = 0; i < BLOCK_SIZE; i++)
 	{
-		double **write = state.writePtr;
-		double **read = state.readPtr;
-		double (*delay)[DELAY_SIZE] = state.delay;
+		for (k = 0; k < NUM_CHANNELS; k++)
+		{
+			sampleBuffer[k][i] = shelvingLP(sampleBuffer[k][i], coeffL, z_xL, z_yL);
+			sampleBuffer[k][i] = shelvingHP(sampleBuffer[k][i], coeffH, z_xH, z_yH);
+		}
 
-		double left1;
-		double right1;
-		double a1, a2, a3, a4;
-		double h;
-		double leftIn = *bufferLeft++;
-		double rightIn = *bufferRight++;
-
-		// Gore
-		**write = leftIn;
-		if (*write == *delay + DELAY_SIZE - 1)
-			*write = *delay;
-		else
-			(*write)++;
-		write++;
-
-		left1 = **read;
-		if (*read == *delay + DELAY_SIZE - 1)
-			*read = *delay;
-		else
-			(*read)++;
-		read++;
-		delay++;
-
-		// Dole
-		**write = rightIn;
-		if (*write == *delay + DELAY_SIZE - 1)
-			*write = *delay;
-		else
-			(*write)++;
-		write++;
-
-		right1 = **read;
-		if (*read == *delay + DELAY_SIZE - 1)
-			*read = *delay;
-		else
-			(*read)++;
-		read++;
-		delay++;
-
-		// Centar
-		h = (leftIn + rightIn) * state.gainH;
+		/*	sampleBuffer[0][i] = shelvingLP(sampleBuffer[0][i], coeffL, z_xL, z_yL, K1);
+		sampleBuffer[0][i] = shelvingHP(sampleBuffer[0][i], coeffH, z_xH, z_yH, K2);*/
 
 
-		// druga kolona
-		a1 = left1 * m2dB;
-		a2 = h * m6dB;
-		a3 = h * m6dB;
-		a4 = right1 * m2dB;
-
-		*left++ = a2;
-		*left_sur++ = a1 + a2;
-		*center++ = h;
-		*lfe++ = h;
-		*right_sur++ = a3 + a4;
-		*right++ = a3;
 	}
-}
 
 
-int main(int argc, char* argv[])
+};
+
+DSPint main(DSPint argc, char* argv[])
 {
-	State state;
-	int i;
 
-	for(i =0 ;i<NUM_CHANNELS; i++)
-	memset(&sampleBuffer[i],0,BLOCK_SIZE);
-	
-	
+	DSPint i, j, k;
+
+	if (argc < 6 || argc > 8) {
+		printf("Wrong number of arguments\n");
+		printf("Usage: %s  \n", argv[0]);
+		printf("INPUT: %s \n", argv[1]);
+		printf(" OUTPUT: %s  \n", argv[2]);
+		printf("%s  ENABLE \n", argv[3]);
+		printf(" %s  K1 \n", argv[4]);
+		printf(" %s  K2 \n", argv[5]);
+		printf(" %s  alpha1 \n", argv[6]);
+		printf(" %s  alpha2 \n", argv[7]);
+
+		printf("alpha1 alpha2 K1 K2 \n");
+		return -1;
+	}
+
+
 	FILE *wav_in = NULL;
 	FILE *wav_out = NULL;
 	char WavInputName[256];
 	char WavOutputName[256];
-	WAV_HEADER inputWAVhdr, outputWAVhdr;	
+	WAV_HEADER inputWAVhdr, outputWAVhdr;
 
-	stateInit(atof(argv[4]), atof(argv[5]), atof(argv[6]));
 
-	if (strcmp(argv[3], "MODE_2_0_0") == 0)
-		state.mode = MODE_2_0_0;
-	else if (strcmp(argv[3], "MODE_2_0_1") == 0)
-		state.mode = MODE_2_0_1;
-	else if (strcmp(argv[3], "MODE_0_2_0") == 0)
-		state.mode = MODE_0_2_0;
-	else if (strcmp(argv[3], "MODE_0_2_1") == 0)
-		state.mode = MODE_0_2_1;
-	else if (strcmp(argv[3], "MODE_3_2_0") == 0)
-		state.mode = MODE_3_2_0;
+	// Init channel buffers
+	for (i = 0; i<NUM_CHANNELS; i++)
+		memset(&sampleBuffer[i], 0, BLOCK_SIZE);
+
+
+	if (strcmp(argv[3], "0") != 0) {
+		enable = 1;
+	}
+	else {
+		enable = 0;
+	}
+
+	alpha1 = atof(argv[6]);
+	alpha2 = atof(argv[7]);
+
+	KLP = atof(argv[4]);
+	KHP = atof(argv[5]);
+	K1 = KLP / 2;
+	K2 = KHP / 2;
+	
+
+
+
+
 
 	// Open input and output wav files
 	//-------------------------------------------------
 	strcpy(WavInputName, argv[1]);
 	wav_in = OpenWavFileForRead(WavInputName, "rb");
+	if (wav_in == NULL)
+	{
+		printf("Error: Could not open input wavefile.\n");
+		return -1;
+	}
 	strcpy(WavOutputName, argv[2]);
 	wav_out = OpenWavFileForRead(WavOutputName, "wb");
 	//-------------------------------------------------
@@ -178,30 +211,22 @@ int main(int argc, char* argv[])
 	// Read input wav header
 	//-------------------------------------------------
 	ReadWavHeader(wav_in, inputWAVhdr);
+
 	//-------------------------------------------------
-	
+
 	// Set up output WAV header
 	//-------------------------------------------------	
 	outputWAVhdr = inputWAVhdr;
-	if (state.mode == MODE_2_0_0)
-		outputWAVhdr.fmt.NumChannels = 2;
-	else if (state.mode == MODE_2_0_1)
-		outputWAVhdr.fmt.NumChannels = 3;
-	else if (state.mode == MODE_0_2_0)
-		outputWAVhdr.fmt.NumChannels = 2;
-	else if (state.mode == MODE_0_2_1)
-		outputWAVhdr.fmt.NumChannels = 3;
-	else if (state.mode = MODE_3_2_0)
-		outputWAVhdr.fmt.NumChannels = 5;
+	outputWAVhdr.fmt.NumChannels = inputWAVhdr.fmt.NumChannels; // change number of channels
 
-	int oneChannelSubChunk2Size = inputWAVhdr.data.SubChunk2Size / inputWAVhdr.fmt.NumChannels;
-	int oneChannelByteRate = inputWAVhdr.fmt.ByteRate / inputWAVhdr.fmt.NumChannels;
-	int oneChannelBlockAlign = inputWAVhdr.fmt.BlockAlign / inputWAVhdr.fmt.NumChannels;
-	
+	DSPint oneChannelSubChunk2Size = inputWAVhdr.data.SubChunk2Size / inputWAVhdr.fmt.NumChannels;
+	DSPint oneChannelByteRate = inputWAVhdr.fmt.ByteRate / inputWAVhdr.fmt.NumChannels;
+	DSPint oneChannelBlockAlign = inputWAVhdr.fmt.BlockAlign / inputWAVhdr.fmt.NumChannels;
+
 	outputWAVhdr.data.SubChunk2Size = oneChannelSubChunk2Size * outputWAVhdr.fmt.NumChannels;
 	outputWAVhdr.fmt.ByteRate = oneChannelByteRate * outputWAVhdr.fmt.NumChannels;
 	outputWAVhdr.fmt.BlockAlign = oneChannelBlockAlign * outputWAVhdr.fmt.NumChannels;
-
+	//-------------------------------------------------	
 
 	// Write output WAV header to file
 	//-------------------------------------------------
@@ -210,108 +235,60 @@ int main(int argc, char* argv[])
 	// Processing loop
 	//-------------------------------------------------	
 	{
-		int sample;
-		int BytesPerSample = inputWAVhdr.fmt.BitsPerSample / 8;
-		const double SAMPLE_SCALE = INT_MAX;		//2^31
-		int iNumSamples = inputWAVhdr.data.SubChunk2Size / (inputWAVhdr.fmt.NumChannels * inputWAVhdr.fmt.BitsPerSample / 8);
-		
+		calculateShelvingCoeffT(alpha1, coeffL);
+		calculateShelvingCoeffT(alpha2, coeffH);
+
+		DSPint sample;
+		DSPint BytesPerSample = inputWAVhdr.fmt.BitsPerSample / 8;
+		const DSPfract SAMPLE_SCALE = -(DSPfract)(1 << 31);		//2^31
+		DSPint iNumSamples = inputWAVhdr.data.SubChunk2Size / (inputWAVhdr.fmt.NumChannels*inputWAVhdr.fmt.BitsPerSample / 8);
+
 		// exact file length should be handled correctly...
-		for(int i = 0; i < iNumSamples / BLOCK_SIZE; i++)
-		{	
-			for(int j = 0; j < BLOCK_SIZE; j++)
+		for ( i = 0; i < iNumSamples / BLOCK_SIZE; i++)
+		{
+			for (j = 0; j < BLOCK_SIZE; j++)
 			{
-				for(int k = 0; k < inputWAVhdr.fmt.NumChannels; k++)
-				{	
+				for (k = 0; k < inputWAVhdr.fmt.NumChannels; k++)
+				{
 					sample = 0; //debug
 					fread(&sample, BytesPerSample, 1, wav_in);
 					sample = sample << (32 - inputWAVhdr.fmt.BitsPerSample); // force signextend
 					sampleBuffer[k][j] = sample / SAMPLE_SCALE;				// scale sample to 1.0/-1.0 range		
+																			//sampleBuffer[0][j] = -1; debuging 
 				}
 			}
 
-			processing();
-
-			for (int j = 0; j < BLOCK_SIZE; j++)
+			if (enable)
 			{
-				if (state.mode == MODE_2_0_0)
-				{
-					sample = (int)(sampleBuffer[LEFT][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-
-					sample = (int)(sampleBuffer[RIGHT][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-				}
-				else if (state.mode == MODE_2_0_1)
-				{
-					sample = (int)(sampleBuffer[LEFT][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-
-					sample = (int)(sampleBuffer[RIGHT][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-
-					sample = (int)(sampleBuffer[LFE][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-				}
-				else if (state.mode == MODE_0_2_0)
-				{
-					sample = (int)(sampleBuffer[LEFT_SUR][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-
-					sample = (int)(sampleBuffer[RIGHT_SUR][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-				}
-				else if (state.mode == MODE_0_2_1)
-				{
-					sample = (int)(sampleBuffer[LEFT_SUR][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-
-					sample = (int)(sampleBuffer[RIGHT_SUR][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-
-					sample = (int)(sampleBuffer[LFE][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-				}
-				else if (state.mode == MODE_3_2_0)
-				{
-					sample = (int)(sampleBuffer[LEFT][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-
-					sample = (int)(sampleBuffer[CENTER][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-
-					sample = (int)(sampleBuffer[RIGHT][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-
-					sample = (int)(sampleBuffer[LEFT_SUR][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-
-					sample = (int)(sampleBuffer[RIGHT_SUR][j] * SAMPLE_SCALE);
-					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
-					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);
-				}
+				processing();
 			}
+
+
+
+
+
+			for (j = 0; j < BLOCK_SIZE; j++)
+			{
+				for (k = 0; k<outputWAVhdr.fmt.NumChannels; k++)
+				{
+					sample = (DSPint)(sampleBuffer[k][j] * SAMPLE_SCALE);	// crude, non-rounding
+					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
+					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample / 8, 1, wav_out);
+				}
+
+
+
+
+			}
+
+
 		}
 	}
-	
 	// Close files
-	//-------------------------------------------------	
+	//-------------------------------------------------
 	fclose(wav_in);
 	fclose(wav_out);
-	//-------------------------------------------------	
+	//-------------------------------------------------
 
 	return 0;
 }

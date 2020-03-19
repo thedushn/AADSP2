@@ -1,17 +1,1 @@
-﻿  WAVheader.cpp
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model2\wavheader.cpp(84): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
-  stdfix_emu.cpp
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model2\stdfix_emu.cpp(56): warning C4309: 'argument': truncation of constant value
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model2\stdfix_emu.cpp(310): warning C4309: 'argument': truncation of constant value
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model2\stdfix_emu.cpp(518): warning C4244: '=': conversion from 'unsigned long' to 'char', possible loss of data
-  main.cpp
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model2\main.cpp(146): warning C4101: 'j': unreferenced local variable
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model2\main.cpp(145): warning C4101: 'i': unreferenced local variable
-  fixed_point_math.cpp
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model2\fixed_point_math.cpp(455): warning C4309: '=': truncation of constant value
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model2\fixed_point_math.cpp(517): warning C4244: '=': conversion from 'unsigned long' to 'coyote_math::accumulator::guard_t', possible loss of data
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model2\fixed_point_math.cpp(527): warning C4309: '=': truncation of constant value
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\model2\fixed_point_math.cpp(557): warning C4309: '=': truncation of constant value
-  Generating Code...
-  model2.vcxproj -> C:\Users\thedushn\Desktop\AADSP2\new_project\Zadatak\Debug\model2.exe
+﻿  model2.vcxproj -> C:\Users\thedushn\Desktop\AADSP2\new_project\Zadatak\New folder\AADSP2\Debug\model2.exe
