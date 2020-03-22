@@ -47,7 +47,7 @@ inline void clip(DSPfract *x) {
 
 
 
-void calculateShelvingCoeffT(DSPfract c_alpha, DSPfract* output)
+void calculateShelvingCoeff(DSPfract c_alpha, DSPfract* output)
 {
 	DSPfract t1, t2;
 
@@ -235,8 +235,8 @@ DSPint main(DSPint argc, char* argv[])
 	// Processing loop
 	//-------------------------------------------------	
 	{
-		calculateShelvingCoeffT(alpha1, coeffL);
-		calculateShelvingCoeffT(alpha2, coeffH);
+		calculateShelvingCoeff(alpha1, coeffL);
+		calculateShelvingCoeff(alpha2, coeffH);
 
 		DSPint sample;
 		DSPint BytesPerSample = inputWAVhdr.fmt.BitsPerSample / 8;
