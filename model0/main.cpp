@@ -3,7 +3,10 @@
 #include <string.h>
 #include <limits.h>
 #include <math.h>
+
 #include "WAVheader.h"
+#include "iir.h"
+
 
 #define BLOCK_SIZE 16
 //broj kanala 
@@ -16,16 +19,15 @@ double z_xH[NUM_CHANNELS][2];
 double z_yH[NUM_CHANNELS][2];
 double coeffL[4] = { 0,0,0,0 };
 double coeffH[4] = { 0,0,0,0 };
-double coeffH1[4] = { 0,0,0,0 };
-double coeffH2[4] = { 0,0,0,0 };
-double coeffH3[4] = { 0,0,0,0 };
+
 double K1;
 double K2;
-double F;
-double Fc;
+double Fcl;
+double Fch;
 double alpha1;
 // Enable
 static int enable = 1;
+
 
 double sampleBuffer[NUM_CHANNELS][BLOCK_SIZE];
 
@@ -44,39 +46,7 @@ inline void clip(double *x) {
 
 
 
-void calculateShelvingCoeffT(double sampling_freq, double cut_freq, double *coeff) {
 
-
-	coeff[3] = (1 - sin(2 * M_PI * cut_freq / sampling_freq)) / cos(2 * M_PI * cut_freq / sampling_freq);
-	if (coeff[3] < -1 || coeff[0] > 1)
-	{
-		coeff[3] = (1 + sin(2 * M_PI * cut_freq / sampling_freq)) / cos(2 * M_PI * cut_freq / sampling_freq);
-	}
-
-	coeff[0] = coeff[1] = (1 - coeff[3]) / 2;
-
-	coeff[2] = 1;
-
-	coeff[3] = -coeff[3];
-	
-}
-
-void calculateShelvingCoeffTH(double sampling_freq, double cut_freq, double *coeff) {
-
-
-	coeff[3] =- (1 - sin(2 * M_PI * cut_freq / sampling_freq)) / cos(2 * M_PI * cut_freq / sampling_freq);
-	if (coeff[3] < -1 || coeff[0] > 1)
-	{
-		coeff[3] = -(1 + sin(2 * M_PI * cut_freq / sampling_freq)) / cos(2 * M_PI * cut_freq / sampling_freq);
-	}
-
-	coeff[0] = coeff[1] = (coeff[3] -1 ) / 2;
-
-	coeff[2] = 1;
-
-	coeff[3] = coeff[3];
-
-}
 
 void calculateShelvingCoeff(double c_alpha, double* output)
 {
@@ -93,21 +63,7 @@ void calculateShelvingCoeff(double c_alpha, double* output)
 	output[2] = +1;
 	output[3] = t2;
 }
-void calculateShelvingCoeffH(double c_alpha, double* output)
-{
-	double t1, t2;
 
-	t1 = -(1 * c_alpha);
-	clip(&t1);
-
-	t2 = 1 * c_alpha;
-	clip(&t2);
-
-	output[0] = t1;
-	output[1] = 1;
-	output[2] = -1;
-	output[3] = t2;
-}
 
 double calculateAlpha(double omega)
 {
@@ -119,26 +75,7 @@ double calculateAlpha(double omega)
 
 
 
-double first_order_IIR(double input, double* coefficients, double* z_x, double* z_y)
-{
-	double temp;
 
-	z_x[0] = input; /* Copy input to x[0] */
-
-	temp = (coefficients[0] * z_x[0]);   /* B0 * x(n)     */
-	temp += (coefficients[1] * z_x[1]);    /* B1 * x(n-1) */
-	temp -= (coefficients[3] * z_y[1]);    /* A1 * y(n-1) */
-
-
-	z_y[0] = (temp);
-
-	/* Shuffle values along one place for next time */
-
-	z_y[1] = z_y[0];   /* y(n-1) = y(n)   */
-	z_x[1] = z_x[0];   /* x(n-1) = x(n)   */
-
-	return (temp);
-}
 
 
 
@@ -163,8 +100,7 @@ double shelvingHP(double input, double* coeff, double* z_x, double* z_y, double 
 	double accum;
 
 	filtered_input = first_order_IIR(input, coeff, z_x, z_y);
-	/*accum = ((input + filtered_input) / 2.0)*k;
-	accum+=	(input - filtered_input) / 2.0;*/
+	
 	accum = (input - filtered_input) / 2.0; 
 	accum += ((input + filtered_input) / 2.0)*k;
 	clip(&accum);
@@ -183,26 +119,15 @@ void processing() {
 
 	for ( i = 0; i < BLOCK_SIZE; i++)
 	{
-		/*for ( k = 0; k < NUM_CHANNELS; k++)
-		{*/
-			//sampleBuffer[k][i] = shelvingLP(sampleBuffer[k][i], coeffL, z_xL[k], z_yL[k], 0.4);
-		///////	sampleBuffer[k][i] = shelvingHP(sampleBuffer[k][i], coeffH, z_xH[k], z_yH[k], 0.5);
-		/*double temp = sampleBuffer[0][i];
-			sampleBuffer[0][i] = shelvingLP(sampleBuffer[0][i], coeffH, z_xH[0], z_yH[0], 0.1);
-			sampleBuffer[1][i] = shelvingLP(temp, coeffL, z_xL[1], z_yL[1], 0.1);*/
-	
-		//}
+		for ( k = 0; k < NUM_CHANNELS; k++)
+		{
+			
+				sampleBuffer[k][i] = shelvingHP(sampleBuffer[k][i], coeffH, z_xH[k], z_yH[k], K1);
+				sampleBuffer[k][i] = shelvingLP(sampleBuffer[k][i], coeffL, z_xL[k], z_yL[k], K2);
+			
+			
+		}
 		
-			//sampleBuffer[0][i] = shelvingHP(sampleBuffer[0][i], coeffH, z_xH[0], z_yH[0], 0.5);
-			//sampleBuffer[0][i] = shelvingHP(sampleBuffer[0][i], coeffH1, z_xH[0], z_yH[0], 0.5);
-			sampleBuffer[0][i] = shelvingHP(sampleBuffer[0][i], coeffH2, z_xH[0], z_yH[0], 0.5);
-			sampleBuffer[0][i] = shelvingLP(sampleBuffer[0][i], coeffL, z_xL[0], z_yL[0], 1.1);
-			sampleBuffer[1][i] = shelvingHP(sampleBuffer[1][i], coeffH2, z_xH[1], z_yH[1], 0.5);
-			sampleBuffer[1][i] = shelvingLP(sampleBuffer[1][i], coeffL, z_xL[1], z_yL[1], 1.1);
-
-			sampleBuffer[2][i] = shelvingHP(sampleBuffer[2][i], coeffH2, z_xH[2], z_yH[2], 1.2);
-			sampleBuffer[3][i] = shelvingHP(sampleBuffer[3][i], coeffH2, z_xH[3], z_yH[3], 1.2);
-			//sampleBuffer[3][i] = shelvingHP(sampleBuffer[3][i], coeffH3, z_xH[3], z_yH[3], 0.5);
 
 	
 	}
@@ -214,9 +139,9 @@ int main(int argc, char* argv[])
 {
 
 	int i, j, k;
-
+	
 	if (argc < 6 || argc > 8) {
-		printf("Wrong number of arguments\n");
+		printf("dasdasWrong number of arguments\n");
 		printf("Usage: %s  \n", argv[0]);
 		printf("INPUT: %s \n", argv[1]);
 		printf(" OUTPUT: %s  \n", argv[2]);
@@ -241,10 +166,14 @@ int main(int argc, char* argv[])
 	// Init channel buffers
 	for ( i = 0; i<NUM_CHANNELS; i++)
 		memset(&sampleBuffer[i], 0, BLOCK_SIZE);
+	
+	
 
 	for (i = 0; i < NUM_CHANNELS; i++) {
-		memset(&z_xH[i][0], 0, 64);
-		memset(&z_xH[i][1], 0, 64);
+		z_xH[i][0] = 0;
+		z_yH[i][1] = 0;
+		z_xL[i][0] = 0;
+		z_yL[i][1] = 0;
 
 
 	}
@@ -257,12 +186,12 @@ int main(int argc, char* argv[])
 		enable = 0;
 	} 
 
-	F = atof(argv[6]);
-	//Fc = atof(argv[7]);
-	Fc = 1000 / (F / 2);
+	
+	
 	K1 = atof(argv[4]);
 	K2 = atof(argv[5]);
-
+	Fcl = atof(argv[6]);
+	Fch = atof(argv[7]);
 	
 	
 
@@ -274,6 +203,7 @@ int main(int argc, char* argv[])
 	if (wav_in == NULL)
 	{
 		printf("Error: Could not open input wavefile.\n");
+		printf("The file is in another castle \n");
 		return -1;
 	}
 	strcpy(WavOutputName, argv[2]);
@@ -283,13 +213,13 @@ int main(int argc, char* argv[])
 	// Read input wav header
 	//-------------------------------------------------
 	ReadWavHeader(wav_in, inputWAVhdr);
-	
+	 
 	//-------------------------------------------------
 
 	// Set up output WAV header
 	//-------------------------------------------------	
 	outputWAVhdr = inputWAVhdr;
-	outputWAVhdr.fmt.NumChannels = inputWAVhdr.fmt.NumChannels*2; // change number of channels
+	outputWAVhdr.fmt.NumChannels = inputWAVhdr.fmt.NumChannels; // change number of channels
 
 	int oneChannelSubChunk2Size = inputWAVhdr.data.SubChunk2Size / inputWAVhdr.fmt.NumChannels;
 	int oneChannelByteRate = inputWAVhdr.fmt.ByteRate / inputWAVhdr.fmt.NumChannels;
@@ -307,17 +237,14 @@ int main(int argc, char* argv[])
 	// Processing loop
 	//-------------------------------------------------	
 	{
-		double omega = 2 * M_PI * Fc / F;
+		double omega = 2 * M_PI * Fcl / inputWAVhdr.fmt.SampleRate;
 		alpha1=calculateAlpha(omega);
-		//calculateShelvingCoeffTH(48000, 40000, coeffH);
-		//calculateShelvingCoeff(-0.9, coeffH);
-		calculateShelvingCoeffH(0.9, coeffH1);
-		calculateShelvingCoeff(0.9, coeffH2);
-		//calculateShelvingCoeffT(48000, 40000, coeffH3);
-		//calculateShelvingCoeffT(48000, Fc, coeffL);
-	
-	
-		calculateShelvingCoeff(0.9, coeffL);
+		double omega2 = 2 * M_PI * Fch / inputWAVhdr.fmt.SampleRate;
+		double alpha2 = calculateAlpha(omega2);
+
+		calculateShelvingCoeff(alpha1, coeffL);
+		calculateShelvingCoeff(alpha2, coeffH);
+		
 		
 		int sample;
 		int BytesPerSample = inputWAVhdr.fmt.BitsPerSample / 8;
@@ -329,13 +256,13 @@ int main(int argc, char* argv[])
 		{
 			for ( j = 0; j < BLOCK_SIZE; j++)
 			{
-				for ( k = 0; k < inputWAVhdr.fmt.NumChannels*2; k++)
+				for ( k = 0; k < inputWAVhdr.fmt.NumChannels; k++)
 				{
 					sample = 0; //debug
 					fread(&sample, BytesPerSample, 1, wav_in);
 					sample = sample << (32 - inputWAVhdr.fmt.BitsPerSample); // force signextend
 					sampleBuffer[k][j] = sample /SAMPLE_SCALE;				// scale sample to 1.0/-1.0 range		
-					//sampleBuffer[k][j] = 0.1;
+					
 				}
 			}
 			
@@ -350,7 +277,7 @@ int main(int argc, char* argv[])
 
 			for ( j = 0; j < BLOCK_SIZE; j++)
 			{
-				for ( k = 0; k<outputWAVhdr.fmt.NumChannels*2 ; k++)
+				for ( k = 0; k<outputWAVhdr.fmt.NumChannels ; k++)
 				{
 					sample = (int)(sampleBuffer[k][j] * SAMPLE_SCALE);	// crude, non-rounding
 					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);

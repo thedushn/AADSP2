@@ -3,33 +3,29 @@
 #include <string.h>
 #include <limits.h>
 #include <math.h>
+
 #include "WAVheader.h"
-#include "common.h"
 
-#define BLOCK_SIZE 16
-//broj kanala 
-#define NUM_CHANNELS 8
 
-DSPfract z_xL[2];
-DSPfract z_yL[2];
-DSPfract z_xH[2];
-DSPfract z_yH[2];
-DSPfract coeffL[4] = { 0,0,0,0 };
-DSPfract coeffH[4] = { 0,0,0,0 };
+#include "iir.h"
+#include "arguments.h"
 
-DSPfract K1;
-DSPfract K2;
-DSPfract KHP; 
-DSPfract KLP; 
-DSPfract alpha1;
-DSPfract alpha2;
-// Enable
-static DSPint enable = 1;
 
 DSPfract sampleBuffer[NUM_CHANNELS][BLOCK_SIZE];
+DSPfract z_xL[NUM_CHANNELS][2];
+DSPfract z_yL[NUM_CHANNELS][2];
+DSPfract z_xH[NUM_CHANNELS][2];
+DSPfract z_yH[NUM_CHANNELS][2];
 
 
-
+DSPfract* sb_ptr0 = sampleBuffer[0];
+DSPfract* sb_ptr1 = sampleBuffer[1];
+DSPfract* sb_ptr2 = sampleBuffer[2];
+DSPfract* sb_ptr3 = sampleBuffer[3];
+DSPfract* sb_ptr4 = sampleBuffer[4];
+DSPfract* sb_ptr5 = sampleBuffer[5];
+DSPfract* sb_ptr6 = sampleBuffer[6];
+DSPfract* sb_ptr7 = sampleBuffer[7];
 
 inline void clip(DSPfract *x) {
 	if (*x > 1) {
@@ -45,58 +41,45 @@ inline void clip(DSPfract *x) {
 
 
 
-
-
 void calculateShelvingCoeff(DSPfract c_alpha, DSPfract* output)
 {
 	DSPfract t1, t2;
 
-	t1 = 1 * c_alpha;
+	t1 =  c_alpha;
 	clip(&t1);
 
-	t2 = -(1 * c_alpha);
+	t2 = -c_alpha;
 	clip(&t2);
 
-	output[0] = t1;
-	output[1] = -1;
-	output[2] = 1;
-	output[3] = t2;
+	*output = t1;
+	*(output+1) = -1;
+	*(output + 2) = +1;
+	*(output + 3) = t2;
 }
 
 
-
-
-DSPfract first_order_IIR(DSPfract input, DSPfract* coefficients, DSPfract* z_x, DSPfract* z_y)
+DSPfract calculateAlpha(DSPfract omega)
 {
-	DSPfract temp;
+	DSPfract a1 = 1 / cos(omega) + tan(omega);
+	DSPfract a2 = 1 / cos(omega) - tan(omega);
 
-	z_x[0] = input; /* Copy input to x[0] */
-
-	temp = (coefficients[0] * z_x[0]);   /* B0 * x(n)     */
-	temp += (coefficients[1] * z_x[1]);    /* B1 * x(n-1) */
-	temp -= (coefficients[3] * z_y[1]);    /* A1 * y(n-1) */
-
-
-	z_y[0] = (temp);
-
-	/* Shuffle values along one place for next time */
-
-	z_y[1] = z_y[0];   /* y(n-1) = y(n)   */
-	z_x[1] = z_x[0];   /* x(n-1) = x(n)   */
-
-	return (temp);
+	return (a1 >= -1 && a1 <= 1) ? a1 : a2;
 }
 
 
 
-DSPfract shelvingLP(DSPfract input, DSPfract* coeff, DSPfract* z_x, DSPfract* z_y) {
+
+
+
+
+DSPfract shelvingLP(DSPfract input, DSPfract* z_x, DSPfract* z_y) {
 
 	DSPfract filtered_input;
 	DSPfract accum;
 
-	filtered_input = first_order_IIR(input, coeff, z_x, z_y);
+	filtered_input = first_order_IIR(input, coeffL, z_x, z_y);
 	accum = (input + filtered_input) / 2.0;
-	accum += (input - filtered_input)*K1 ;
+	accum += (input - filtered_input) *K1;
 	clip(&accum);
 
 
@@ -104,20 +87,22 @@ DSPfract shelvingLP(DSPfract input, DSPfract* coeff, DSPfract* z_x, DSPfract* z_
 
 }
 
-DSPfract shelvingHP(DSPfract input, DSPfract* coeff, DSPfract* z_x, DSPfract* z_y) {
+DSPfract shelvingHP(DSPfract input, DSPfract* z_x, DSPfract* z_y) {
 
 	DSPfract filtered_input;
 	DSPfract accum;
 
-	filtered_input = first_order_IIR(input, coeff, z_x, z_y);
+	filtered_input = first_order_IIR(input, coeffH, z_x, z_y);
+
 	accum = (input - filtered_input) / 2.0;
-	accum += (input + filtered_input)*K2;
+	accum += (input + filtered_input) *K2;
 	clip(&accum);
 
 
 	return accum;
 
 }
+
 
 void processing() {
 
@@ -127,19 +112,43 @@ void processing() {
 
 	for (i = 0; i < BLOCK_SIZE; i++)
 	{
-		for (k = 0; k < NUM_CHANNELS; k++)
-		{
-			sampleBuffer[k][i] = shelvingLP(sampleBuffer[k][i], coeffL, z_xL, z_yL);
-			sampleBuffer[k][i] = shelvingHP(sampleBuffer[k][i], coeffH, z_xH, z_yH);
-		}
+		*sb_ptr0= shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+		*sb_ptr0++ = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+		
+		*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH+1), *(z_yH+1));
+		*sb_ptr1++ = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+		
+		*sb_ptr2 = shelvingHP(*sb_ptr2, *(z_xH + 2), *(z_yH + 2));
+		*sb_ptr2++ = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
 
-		/*	sampleBuffer[0][i] = shelvingLP(sampleBuffer[0][i], coeffL, z_xL, z_yL, K1);
-		sampleBuffer[0][i] = shelvingHP(sampleBuffer[0][i], coeffH, z_xH, z_yH, K2);*/
+		*sb_ptr3 = shelvingHP(*sb_ptr3, *(z_xH + 3), *(z_yH + 3));
+		*sb_ptr3++ = shelvingLP(*sb_ptr3, *(z_xL + 3), *(z_yL + 3));
+
+		*sb_ptr4 = shelvingHP(*sb_ptr4, *(z_xH + 4), *(z_yH + 4));
+		*sb_ptr4++ = shelvingLP(*sb_ptr4, *(z_xL + 4), *(z_yL + 4));
+
+		*sb_ptr5 = shelvingHP(*sb_ptr5, *(z_xH + 5), *(z_yH + 5));
+		*sb_ptr5++ = shelvingLP(*sb_ptr5, *(z_xL + 5), *(z_yL + 5));
+
+		*sb_ptr6 = shelvingHP(*sb_ptr6, *(z_xH + 6), *(z_yH + 6));
+		*sb_ptr6++ = shelvingLP(*sb_ptr6, *(z_xL + 6), *(z_yL + 6));
+
+		*sb_ptr7 = shelvingHP(*sb_ptr7, *(z_xH + 7), *(z_yH + 7));
+		*sb_ptr7++ = shelvingLP(*sb_ptr7, *(z_xL + 7), *(z_yL + 7));
+
+	
+
 
 
 	}
-
-
+	sb_ptr0 = sampleBuffer[0];
+	sb_ptr1 = sampleBuffer[1];
+	sb_ptr2 = sampleBuffer[2];
+	sb_ptr3 = sampleBuffer[3];
+	sb_ptr4 = sampleBuffer[4];
+	sb_ptr5 = sampleBuffer[5];
+	sb_ptr6 = sampleBuffer[6];
+	sb_ptr7 = sampleBuffer[7];
 };
 
 DSPint main(DSPint argc, char* argv[])
@@ -171,8 +180,16 @@ DSPint main(DSPint argc, char* argv[])
 
 
 	// Init channel buffers
-	for (i = 0; i<NUM_CHANNELS; i++)
+	for (i = 0; i < NUM_CHANNELS; i++) {
+		memset(&z_xH[i], 0, 2);
+		memset(&z_xL[i], 0, 2);
+		memset(&z_yH[i], 0, 2);
+		memset(&z_yL[i], 0, 2);
 		memset(&sampleBuffer[i], 0, BLOCK_SIZE);
+	}
+		
+
+
 
 
 	if (strcmp(argv[3], "0") != 0) {
@@ -182,15 +199,14 @@ DSPint main(DSPint argc, char* argv[])
 		enable = 0;
 	}
 
-	alpha1 = atof(argv[6]);
-	alpha2 = atof(argv[7]);
 
-	KLP = atof(argv[4]);
-	KHP = atof(argv[5]);
-	K1 = KLP / 2;
-	K2 = KHP / 2;
-	
 
+	K1 = atof(argv[4]);
+	K1 = K1 / 2;
+	K2 = atof(argv[5]);
+	K2 = K2 / 2;
+	Fcl = atof(argv[6]);
+	Fch = atof(argv[7]);
 
 
 
@@ -202,6 +218,7 @@ DSPint main(DSPint argc, char* argv[])
 	if (wav_in == NULL)
 	{
 		printf("Error: Could not open input wavefile.\n");
+		printf("The file is in another castle \n");
 		return -1;
 	}
 	strcpy(WavOutputName, argv[2]);
@@ -235,8 +252,14 @@ DSPint main(DSPint argc, char* argv[])
 	// Processing loop
 	//-------------------------------------------------	
 	{
+		DSPfract omega =  M_PI * Fcl / inputWAVhdr.fmt.SampleRate;
+		alpha1 = calculateAlpha(omega);
+		DSPfract omega2 =  M_PI * Fch / inputWAVhdr.fmt.SampleRate;
+		 alpha2 = calculateAlpha(omega2);
+
 		calculateShelvingCoeff(alpha1, coeffL);
 		calculateShelvingCoeff(alpha2, coeffH);
+
 
 		DSPint sample;
 		DSPint BytesPerSample = inputWAVhdr.fmt.BitsPerSample / 8;
@@ -244,17 +267,17 @@ DSPint main(DSPint argc, char* argv[])
 		DSPint iNumSamples = inputWAVhdr.data.SubChunk2Size / (inputWAVhdr.fmt.NumChannels*inputWAVhdr.fmt.BitsPerSample / 8);
 
 		// exact file length should be handled correctly...
-		for ( i = 0; i < iNumSamples / BLOCK_SIZE; i++)
+		for (i = 0; i < iNumSamples / BLOCK_SIZE; i++)
 		{
 			for (j = 0; j < BLOCK_SIZE; j++)
 			{
 				for (k = 0; k < inputWAVhdr.fmt.NumChannels; k++)
 				{
-					sample = 0; //debug
+					
 					fread(&sample, BytesPerSample, 1, wav_in);
 					sample = sample << (32 - inputWAVhdr.fmt.BitsPerSample); // force signextend
 					sampleBuffer[k][j] = sample / SAMPLE_SCALE;				// scale sample to 1.0/-1.0 range		
-																			//sampleBuffer[0][j] = -1; debuging 
+
 				}
 			}
 

@@ -63,11 +63,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="iir.c" />
+    <ClCompile Include="iir.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WAVheader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="iir.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent>false</DeploymentContent>
+    </ClInclude>
     <ClInclude Include="WAVheader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

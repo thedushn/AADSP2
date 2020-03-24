@@ -44,6 +44,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\..\..\fixed_point_math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -63,12 +64,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="common.h" />
     <ClInclude Include="fixed_point_math.h" />
+    <ClInclude Include="iir.h" />
     <ClInclude Include="stdfix_emu.h" />
     <ClInclude Include="WAVheader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fixed_point_math.cpp" />
+    <ClCompile Include="iir.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdfix_emu.cpp" />
     <ClCompile Include="WAVheader.cpp" />
