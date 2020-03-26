@@ -1,3 +1,9 @@
 ﻿  main.cpp
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model1\main.cpp(110): warning C4101: 'k': unreferenced local variable
+c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model1\main.cpp(60): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'DSPfract'
+c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model1\main.cpp(69): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'DSPfract'
+c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model1\main.cpp(70): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'DSPfract'
+c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model1\main.cpp(121): warning C4101: 'k': unreferenced local variable
+c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model1\main.cpp(273): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'DSPfract'
+c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model1\main.cpp(281): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
+c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model1\main.cpp(282): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
   model1.vcxproj -> C:\Users\thedushn\Desktop\AADSP2\new_project\Zadatak\New folder\AADSP2\Debug\model1.exe

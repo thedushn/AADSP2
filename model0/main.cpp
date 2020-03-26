@@ -123,7 +123,7 @@ void processing() {
 		{
 			
 				sampleBuffer[k][i] = shelvingHP(sampleBuffer[k][i], coeffH, z_xH[k], z_yH[k], K1);
-				sampleBuffer[k][i] = shelvingLP(sampleBuffer[k][i], coeffL, z_xL[k], z_yL[k], K2);
+				//sampleBuffer[k][i] = shelvingLP(sampleBuffer[k][i], coeffL, z_xL[k], z_yL[k], K2);
 			
 			
 		}

@@ -1,11 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "model0", "model0\model0.vcxproj", "{96A4BCD5-05FD-44FE-821C-135EF7C77505}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "model1", "model1\model1.vcxproj", "{0DC1FB21-D60A-415C-95C8-FCD3F58E245E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "model2", "model2\model2.vcxproj", "{5B337D77-516F-4471-BCE6-9C9CF6C05BCC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "filter Model2", "model_2_3\filter\filter.vcxproj", "{A3F8F1EB-635A-472A-89B4-A77D32D316C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,8 +29,15 @@ Global
 		{5B337D77-516F-4471-BCE6-9C9CF6C05BCC}.Debug|Win32.Build.0 = Debug|Win32
 		{5B337D77-516F-4471-BCE6-9C9CF6C05BCC}.Release|Win32.ActiveCfg = Release|Win32
 		{5B337D77-516F-4471-BCE6-9C9CF6C05BCC}.Release|Win32.Build.0 = Release|Win32
+		{A3F8F1EB-635A-472A-89B4-A77D32D316C3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A3F8F1EB-635A-472A-89B4-A77D32D316C3}.Debug|Win32.Build.0 = Debug|Win32
+		{A3F8F1EB-635A-472A-89B4-A77D32D316C3}.Release|Win32.ActiveCfg = Release|Win32
+		{A3F8F1EB-635A-472A-89B4-A77D32D316C3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {84CBE53B-599D-457E-9536-8B5F2CE37E4A}
 	EndGlobalSection
 EndGlobal

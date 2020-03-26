@@ -134,7 +134,7 @@ void processing() {
 	for (i = 0; i < BLOCK_SIZE; i++)
 	{
 		*sb_ptr0 = shelvingHP(*sb_ptr0, *z_xH, *z_yH);
-		*sb_ptr0++ = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+	/*	*sb_ptr0++ = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
 
 		*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
 		*sb_ptr1++ = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
@@ -155,7 +155,7 @@ void processing() {
 		*sb_ptr6++ = shelvingLP(*sb_ptr6, *(z_xL + 6), *(z_yL + 6));
 
 		*sb_ptr7 = shelvingHP(*sb_ptr7, *(z_xH + 7), *(z_yH + 7));
-		*sb_ptr7++ = shelvingLP(*sb_ptr7, *(z_xL + 7), *(z_yL + 7));
+		*sb_ptr7++ = shelvingLP(*sb_ptr7, *(z_xL + 7), *(z_yL + 7));*/
 
 
 
@@ -229,11 +229,7 @@ DSPint main(DSPint argc, char* argv[])
 
 
 
-	DSPfract input_gain;
-	strcpy(decibels, argv[4]);
-	input_gain = strtol(decibels, &pEnd, 10);
-	printf("%f dB\n", input_gain.toDouble());
-	input_gain = FRACT_NUM(input_gain/2);
+
 
 
 	K1 = atof(argv[4]);
