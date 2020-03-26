@@ -56,9 +56,7 @@ void calculateShelvingCoeff(DSPfract c_alpha, DSPfract* output)
 	*(output + 2) = +1;
 	*(output + 3) = t2;
 
-	for (int i = 0; i < 4; i++) {
-		printf("Coefecient%d: %fl \n", i, *(output + i));
-	}
+	
 }
 
 
@@ -66,8 +64,7 @@ DSPfract calculateAlpha(DSPfract omega)
 {
 	DSPfract a1 = 1 / cos(omega) + tan(omega);
 	DSPfract a2 = 1 / cos(omega) - tan(omega);
-	printf("a1: %fl \n", a1);
-	printf("a2: %fl \n", a2);
+	
 	return (a1 >= -1 && a1 <= 1) ? a1 : a2;
 }
 
@@ -96,18 +93,17 @@ DSPfract shelvingHP(DSPfract input, DSPfract* z_x, DSPfract* z_y) {
 
 	DSPfract filtered_input;
 	DSPfract accum;
-	//printf("input %fl\n", input);
+
 	filtered_input = first_order_IIR(input, coeffH, z_x, z_y);
-	//printf("filtered_input %fl\n", filtered_input);
+	
 	
 	accum = (input - filtered_input) / 2.0;
-	//printf("accum %fl\n", accum);
-//	printf("K2 %fl\n", K2);
+	
 	accum += (input + filtered_input) *K2;
-	//printf("accum %fl\n", accum);
+	
 	
 	clip(&accum);
-//	printf("accum %fl\n", accum);
+
 
 
 	return accum;
@@ -123,18 +119,14 @@ void processing() {
 
 	for (i = 0; i < BLOCK_SIZE; i++)
 	{
-		/*printf("sampleBuffer[%d] %fl\n",i, *sb_ptr0);
-		printf("z_xH0 %fl z_xH1  %fl\n",  *z_xH, *z_xH+1);*/
-		//*sb_ptr0 = first_order_IIR(*sb_ptr0, coeffH, *z_xH, *z_yH);
-		/*printf("z_xH0 %fl z_xH1  %fl\n", *z_xH, *z_xH + 1);*/
-	//	printf("sampleBuffer[%d] %fl\n",i, *sb_ptr0);
-		//*sb_ptr0++;
-		*sb_ptr0= shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+		
+		*sb_ptr0=  shelvingHP(*sb_ptr0, *z_xH, *z_yH);
 		*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
 		*sb_ptr0++;
-		
-		/**sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH+1), *(z_yH+1));
-		*sb_ptr1++ = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+
+		*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
+		*sb_ptr1 = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+		*sb_ptr1++;
 		
 		*sb_ptr2 = shelvingHP(*sb_ptr2, *(z_xH + 2), *(z_yH + 2));
 		*sb_ptr2++ = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
@@ -152,7 +144,7 @@ void processing() {
 		*sb_ptr6++ = shelvingLP(*sb_ptr6, *(z_xL + 6), *(z_yL + 6));
 
 		*sb_ptr7 = shelvingHP(*sb_ptr7, *(z_xH + 7), *(z_yH + 7));
-		*sb_ptr7++ = shelvingLP(*sb_ptr7, *(z_xL + 7), *(z_yL + 7));*/
+		*sb_ptr7++ = shelvingLP(*sb_ptr7, *(z_xL + 7), *(z_yL + 7));
 
 	
 
@@ -160,13 +152,13 @@ void processing() {
 
 	}
 	sb_ptr0 = sampleBuffer[0];
-	/*sb_ptr1 = sampleBuffer[1];
+	sb_ptr1 = sampleBuffer[1];
 	sb_ptr2 = sampleBuffer[2];
 	sb_ptr3 = sampleBuffer[3];
 	sb_ptr4 = sampleBuffer[4];
 	sb_ptr5 = sampleBuffer[5];
 	sb_ptr6 = sampleBuffer[6];
-	sb_ptr7 = sampleBuffer[7];*/
+	sb_ptr7 = sampleBuffer[7];
 };
 
 DSPint main(DSPint argc, char* argv[])
@@ -270,17 +262,14 @@ DSPint main(DSPint argc, char* argv[])
 	// Processing loop
 	//-------------------------------------------------	
 	{
-		DSPfract omega =  M_PI * Fcl / inputWAVhdr.fmt.SampleRate;
-		printf("omega %fl \n", omega);
+		DSPfract omega = 2* M_PI * Fcl / inputWAVhdr.fmt.SampleRate;
+	
 		alpha1= calculateAlpha(omega);
-		DSPfract omega2 =  M_PI * Fch / inputWAVhdr.fmt.SampleRate;
-		printf("omega %fl \n", omega2);
+		DSPfract omega2 = 2* M_PI * Fch / inputWAVhdr.fmt.SampleRate;
+		
 		 alpha2 = calculateAlpha(omega2);
 		
-		/* alpha1 = 0.9;
-		 alpha2 = -0.4;*/
-		 printf("alpha1: %fl \n", alpha1);
-		 printf("alpha2: %fl \n", alpha2);
+		
 		calculateShelvingCoeff(alpha1, coeffL);
 		calculateShelvingCoeff(alpha2, coeffH);
 
@@ -301,7 +290,8 @@ DSPint main(DSPint argc, char* argv[])
 					fread(&sample, BytesPerSample, 1, wav_in);
 					sample = sample << (32 - inputWAVhdr.fmt.BitsPerSample); // force signextend
 					sampleBuffer[k][j] = sample / SAMPLE_SCALE;				// scale sample to 1.0/-1.0 range		
-			//		printf("sampleBuffer[%d][%d] : %fl\n", k, j, sampleBuffer[k][j]);
+			
+					
 				}
 			}
 
@@ -319,7 +309,6 @@ DSPint main(DSPint argc, char* argv[])
 				for (k = 0; k<outputWAVhdr.fmt.NumChannels; k++)
 				{
 					sample = (DSPint)(sampleBuffer[k][j] * SAMPLE_SCALE);	// crude, non-rounding
-				//	printf("sample %d\n", sampleBuffer[k][j]);
 					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
 					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample / 8, 1, wav_out);
 				}

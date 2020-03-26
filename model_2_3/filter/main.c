@@ -65,9 +65,7 @@ void calculateShelvingCoeff(DSPfract c_alpha, DSPfract* output)
 	*(output + 1) = FRACT_NUM(-1.0);
 	*(output + 2) = FRACT_NUM(1.0);
 	*(output + 3) = t2;
-	for (int i = 0; i < 4; i++) {
-		printf("Coefecient%d: %fl  \n", i, (output + i)->toDouble());
-	}
+	
 } 
 
 
@@ -76,30 +74,12 @@ long_fract calculateAlpha(double omega)
 
 	double a1 = 1 / cos(omega) + tan(omega);
 	double a2 = 1 / cos(omega) - tan(omega);
-	printf("a1: %fl \n", a1);
-	printf("a2: %fl \n", a2);
+	
 	a1= (a1 >= -1 && a1 <= 1) ? a1 : a2;
 	return FRACT_NUM(a1);
-	/*long_fract a1;
-	double temp;
-	temp = (1 / cos(omega) + tan(omega));
-	if (temp > -1.0 && temp < 1.0) {
+	
+	
 
-		a1 = FRACT_NUM(temp);
-		printf("a1: %d \n", a1.toDouble());
-		return a1;
-
-	}
-
-	temp = (1 / cos(omega) + tan(omega));
-	a1 = FRACT_NUM(temp);
-	printf("a1: %d \n", a1.toDouble());*/
-
-	return a1;
-	/*DSPfract a1 = 1 / cos(omega) + tan(omega);
-	DSPfract a2 = 1 / cos(omega) - tan(omega);*/
-
-	//return (a1 >= FRACT_NUM(-1) && a1 <= FRACT_NUM(1)) ? a1 : a2;
 }
 
 
@@ -109,16 +89,14 @@ DSPaccum first_order_IIR(DSPfract input, DSPfract* coefficients, DSPfract* z_x, 
 	DSPaccum temp;
 
 	*z_x = input; /* Copy input to x[0] */
-//	printf("z_x %fl   %fl\n", z_x->toDouble());
 	temp = (*coefficients * *z_x);   /* B0 * x(n)     */
-//	printf("temp %fl   %fl\n", temp.toDouble());
-	//printf("z_x+1 %fl   %fl\n", (z_x + 1)->toDouble());
+
+	
 	temp += (*(coefficients + 1) * *(z_x + 1));    /* B1 * x(n-1) */
-//	printf("temp %fl   %fl\n", temp.toDouble());
-	//printf("z_y+1 %fl   %fl\n", (z_y + 1)->toDouble());
+
+	
 	temp -= (*(coefficients + 3) * *(z_y + 1));    /* A1 * y(n-1) */
-	//printf("temp %fl   %fl\n", temp.toDouble());
-	//printf("z_y %fl   %fl\n", (z_y)->toDouble());
+	
 	*z_y = (temp);
 
 	/* Shuffle values along one place for next time */
@@ -126,7 +104,7 @@ DSPaccum first_order_IIR(DSPfract input, DSPfract* coefficients, DSPfract* z_x, 
 	*(z_y + 1) = *(z_y);   /* y(n-1) = y(n)   */
 	*(z_x + 1) = *z_x;   /* x(n-1) = x(n)   */
 
-	return (temp);
+	return (DSPfract)(temp);
 }
 
 
@@ -135,37 +113,35 @@ DSPaccum first_order_IIR(DSPfract input, DSPfract* coefficients, DSPfract* z_x, 
 DSPfract shelvingLP(DSPfract input, DSPfract* z_x, DSPfract* z_y) {
 
 	DSPfract filtered_input;
-	DSPfract accum;
+	DSPaccum accum;
 
 	filtered_input = first_order_IIR(input, coeffL, z_x, z_y);
 	accum = (input + filtered_input) >>1;
 	accum += (input - filtered_input) *K1;
-	clip(&accum);
+	clip(&(DSPfract)accum);
 
 
-	return accum;
+	return DSPfract(accum);
 
 }
 
 DSPfract shelvingHP(DSPfract input, DSPfract* z_x, DSPfract* z_y) {
 
 	DSPfract filtered_input;
-	DSPfract accum;
-	//printf("input %fl\n", input.toDouble());
+	DSPaccum accum;
+	
 	filtered_input = first_order_IIR(input, coeffH, z_x, z_y);
-	//printf("filtered_input %fl\n", filtered_input.toDouble());
 	
 	accum = ((input - filtered_input) >>1);
-//	printf("accum %fl\n", accum.toDouble());
-//	printf("K2 %fl\n", K2.toDouble());
+
 	accum += (input + filtered_input) *(K2);
-//	printf("accum %fl\n", accum.toDouble());
+
 	
-	clip(&accum);
-	//printf("accum %fl\n", accum.toDouble());
+	clip(&(DSPfract)accum);
+	
 
 
-	return accum;
+	return DSPfract(accum);
 
 }
 
@@ -178,48 +154,44 @@ void processing() {
 
 	for (i = 0; i < BLOCK_SIZE; i++)
 	{
-		//printf("sampleBuffer[%d] %fl\n",i, sb_ptr0->toDouble());
-	//	printf("z_xH0 %fl z_xH1  %fl\n", z_xH[0][0].toDouble(), z_yH[0][1].toDouble());
-		//*sb_ptr0 =first_order_IIR(*sb_ptr0, coeffH, *z_xH, *z_yH);
-	//	printf("sampleBuffer[%d] %fl\n",i, sb_ptr0->toDouble());
-	//	*sb_ptr0++;
-		*sb_ptr0= shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+	
+		*sb_ptr0 =  shelvingHP(*sb_ptr0, *z_xH, *z_yH);
 		*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
 		*sb_ptr0++;
-		/**sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH+1), *(z_yH+1));
-		*sb_ptr1++ = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
-
+		*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
+		*sb_ptr1 = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+		*sb_ptr1++;
 		*sb_ptr2 = shelvingHP(*sb_ptr2, *(z_xH + 2), *(z_yH + 2));
-		*sb_ptr2++ = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
-
+		*sb_ptr2 = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
+		*sb_ptr2++;
 		*sb_ptr3 = shelvingHP(*sb_ptr3, *(z_xH + 3), *(z_yH + 3));
-		*sb_ptr3++ = shelvingLP(*sb_ptr3, *(z_xL + 3), *(z_yL + 3));
-
+		*sb_ptr3 = shelvingLP(*sb_ptr3, *(z_xL + 3), *(z_yL + 3));
+		*sb_ptr3++;
 		*sb_ptr4 = shelvingHP(*sb_ptr4, *(z_xH + 4), *(z_yH + 4));
-		*sb_ptr4++ = shelvingLP(*sb_ptr4, *(z_xL + 4), *(z_yL + 4));
-
+		*sb_ptr4 = shelvingLP(*sb_ptr4, *(z_xL + 4), *(z_yL + 4));
+		*sb_ptr4++;
 		*sb_ptr5 = shelvingHP(*sb_ptr5, *(z_xH + 5), *(z_yH + 5));
-		*sb_ptr5++ = shelvingLP(*sb_ptr5, *(z_xL + 5), *(z_yL + 5));
-
+		*sb_ptr5 = shelvingLP(*sb_ptr5, *(z_xL + 5), *(z_yL + 5));
+		*sb_ptr5++;
 		*sb_ptr6 = shelvingHP(*sb_ptr6, *(z_xH + 6), *(z_yH + 6));
 		*sb_ptr6++ = shelvingLP(*sb_ptr6, *(z_xL + 6), *(z_yL + 6));
-
+		*sb_ptr6++;
 		*sb_ptr7 = shelvingHP(*sb_ptr7, *(z_xH + 7), *(z_yH + 7));
-		*sb_ptr7++ = shelvingLP(*sb_ptr7, *(z_xL + 7), *(z_yL + 7));*/
-
+		*sb_ptr7 = shelvingLP(*sb_ptr7, *(z_xL + 7), *(z_yL + 7));
+		*sb_ptr7++;
 
 
 
 
 	}
 	sb_ptr0 = sampleBuffer[0];
-	/*sb_ptr1 = sampleBuffer[1];
+	sb_ptr1 = sampleBuffer[1];
 	sb_ptr2 = sampleBuffer[2];
 	sb_ptr3 = sampleBuffer[3];
 	sb_ptr4 = sampleBuffer[4];
 	sb_ptr5 = sampleBuffer[5];
 	sb_ptr6 = sampleBuffer[6];
-	sb_ptr7 = sampleBuffer[7];*/
+	sb_ptr7 = sampleBuffer[7];
 };
 
 DSPint main(DSPint argc, char* argv[])
@@ -257,16 +229,14 @@ DSPint main(DSPint argc, char* argv[])
 
 		z_yH[i][0] = FRACT_NUM(0.0);
 		z_yH[i][1] = FRACT_NUM(0.0);
-	//	printf("0 z_xH %fl z_yH  %fl\n", z_xH[i][0].toDouble(), z_yH[i][0].toDouble());
-	//	printf("1 z_xh %fl z_yH  %fl\n", z_xH[i][1].toDouble(), z_yH[i][1].toDouble());
+	
 
 		z_xL[i][0] = FRACT_NUM(0.0);
 		z_xL[i][1] = FRACT_NUM(0.0);
 
 		z_yL[i][0] = FRACT_NUM(0.0);
 		z_yL[i][1] = FRACT_NUM(0.0);
-	//	printf("0 z_xL %fl z_yL  %fl\n", z_xL[i][0].toDouble(), z_yL[i][0].toDouble());
-//		printf("1 z_xL %fl z_yL  %fl\n", z_xL[i][1].toDouble(), z_yL[i][1].toDouble());
+
 
 
 
@@ -293,24 +263,17 @@ DSPint main(DSPint argc, char* argv[])
 	//K1
 	double temp = atof(argv[4]);
 
-	if (temp > 1) {
-		//temp/2 ;
-		K1 = FRACT_NUM((temp ));
-
-	}
-	else {
+	
 		K1 = FRACT_NUM(temp/2);
-	}
+	
 	//K2
 	temp = atof(argv[5]);
-	if (temp > 1) {
-		//temp/2 ;
+	
 		K2 = FRACT_NUM((temp / 2));
 
-	}
-	else {
+	
 		K2 = FRACT_NUM(temp/2);
-	}
+	
 	Fcl = atoi(argv[6]);
 	Fch = atoi(argv[7]);
 
@@ -358,17 +321,15 @@ DSPint main(DSPint argc, char* argv[])
 	// Processing loop
 	//-------------------------------------------------	
 	{
-		double omega = M_PI * Fcl / inputWAVhdr.fmt.SampleRate;
-		printf("omega %fl\n", omega);
+		double omega = 2*M_PI * Fcl / inputWAVhdr.fmt.SampleRate;
+		
 		alpha1 = calculateAlpha(omega);
-		double omega2 = M_PI * Fch / inputWAVhdr.fmt.SampleRate;
-		printf("omega2 %fl\n", omega2);
+		double omega2 =2* M_PI * Fch / inputWAVhdr.fmt.SampleRate;
+		
 		alpha2 = calculateAlpha(omega2);
-		printf("alpha1: %fl \n", alpha1.toDouble());
-		printf("alpha2: %fl \n", alpha2.toDouble());
+		
 
-		//alpha1 = FRACT_NUM(0.9);
-		//alpha2 = FRACT_NUM (-0.4);
+		
 	
 		
 		calculateShelvingCoeff(alpha1, coeffL);
@@ -391,7 +352,7 @@ DSPint main(DSPint argc, char* argv[])
 					fread(&sample, BytesPerSample, 1, wav_in);
 					sample = sample << (32 - inputWAVhdr.fmt.BitsPerSample); // force signextend
 					sampleBuffer[k][j] = sample / SAMPLE_SCALE;				// scale sample to 1.0/-1.0 range		
-				//	printf("sampleBuffer[%d][%d] : %fl\n", k, j, sampleBuffer[k][j].toDouble());
+				
 				}
 			}
 

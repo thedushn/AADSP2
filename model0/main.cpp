@@ -62,6 +62,7 @@ void calculateShelvingCoeff(double c_alpha, double* output)
 	output[1] =	-1;
 	output[2] = +1;
 	output[3] = t2;
+	
 }
 
 
@@ -122,8 +123,8 @@ void processing() {
 		for ( k = 0; k < NUM_CHANNELS; k++)
 		{
 			
-				sampleBuffer[k][i] = shelvingHP(sampleBuffer[k][i], coeffH, z_xH[k], z_yH[k], K1);
-				//sampleBuffer[k][i] = shelvingLP(sampleBuffer[k][i], coeffL, z_xL[k], z_yL[k], K2);
+				sampleBuffer[k][i] = shelvingHP(sampleBuffer[k][i], coeffH, z_xH[k], z_yH[k], K2);
+				sampleBuffer[k][i] = shelvingLP(sampleBuffer[k][i], coeffL, z_xL[k], z_yL[k], K1);
 			
 			
 		}
@@ -242,6 +243,7 @@ int main(int argc, char* argv[])
 		double omega2 = 2 * M_PI * Fch / inputWAVhdr.fmt.SampleRate;
 		double alpha2 = calculateAlpha(omega2);
 
+		
 		calculateShelvingCoeff(alpha1, coeffL);
 		calculateShelvingCoeff(alpha2, coeffH);
 		
@@ -258,7 +260,7 @@ int main(int argc, char* argv[])
 			{
 				for ( k = 0; k < inputWAVhdr.fmt.NumChannels; k++)
 				{
-					sample = 0; //debug
+					
 					fread(&sample, BytesPerSample, 1, wav_in);
 					sample = sample << (32 - inputWAVhdr.fmt.BitsPerSample); // force signextend
 					sampleBuffer[k][j] = sample /SAMPLE_SCALE;				// scale sample to 1.0/-1.0 range		

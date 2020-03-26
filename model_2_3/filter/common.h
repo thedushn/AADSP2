@@ -16,12 +16,12 @@ typedef fract DSPfract;				    /* DSP fixed-point fractional */
 typedef long_accum DSPaccum;            /* DSP Accumulator */
 typedef long_fract DSPfractl;
 
-#define M_PI  6.28318530717958647692
+#define M_PI  3.14159265358979323846
 static DSPfract K1=FRACT_NUM(0.0);
 static DSPfract K2 = FRACT_NUM(0.0);
 static DSPint Fcl;
 static DSPint Fch;
-static fract alpha1 = FRACT_NUM(0.0);
+static DSPfract alpha1 = FRACT_NUM(0.0);
 static DSPfract alpha2 = FRACT_NUM(0.0);
 
 #endif
