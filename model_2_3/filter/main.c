@@ -73,10 +73,17 @@ void calculateShelvingCoeff(DSPfract c_alpha, DSPfract* output)
 
 long_fract calculateAlpha(double omega)
 {
-	long_fract a1;
+
+	double a1 = 1 / cos(omega) + tan(omega);
+	double a2 = 1 / cos(omega) - tan(omega);
+	printf("a1: %fl \n", a1);
+	printf("a2: %fl \n", a2);
+	a1= (a1 >= -1 && a1 <= 1) ? a1 : a2;
+	return FRACT_NUM(a1);
+	/*long_fract a1;
 	double temp;
 	temp = (1 / cos(omega) + tan(omega));
-	if (temp >= -1.0 && temp <= 1.0) {
+	if (temp > -1.0 && temp < 1.0) {
 
 		a1 = FRACT_NUM(temp);
 		printf("a1: %d \n", a1.toDouble());
@@ -86,7 +93,7 @@ long_fract calculateAlpha(double omega)
 
 	temp = (1 / cos(omega) + tan(omega));
 	a1 = FRACT_NUM(temp);
-	printf("a1: %d \n", a1.toDouble());
+	printf("a1: %d \n", a1.toDouble());*/
 
 	return a1;
 	/*DSPfract a1 = 1 / cos(omega) + tan(omega);
@@ -131,7 +138,7 @@ DSPfract shelvingLP(DSPfract input, DSPfract* z_x, DSPfract* z_y) {
 	DSPfract accum;
 
 	filtered_input = first_order_IIR(input, coeffL, z_x, z_y);
-	accum = (input + filtered_input) / FRACT_NUM(2.0);
+	accum = (input + filtered_input) >>1;
 	accum += (input - filtered_input) *K1;
 	clip(&accum);
 
@@ -177,9 +184,8 @@ void processing() {
 	//	printf("sampleBuffer[%d] %fl\n",i, sb_ptr0->toDouble());
 	//	*sb_ptr0++;
 		*sb_ptr0= shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+		*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
 		*sb_ptr0++;
-		//*sb_ptr0++ = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
-
 		/**sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH+1), *(z_yH+1));
 		*sb_ptr1++ = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
 
@@ -353,18 +359,18 @@ DSPint main(DSPint argc, char* argv[])
 	//-------------------------------------------------	
 	{
 		double omega = M_PI * Fcl / inputWAVhdr.fmt.SampleRate;
-		printf("omega %d/n", omega);
+		printf("omega %fl\n", omega);
 		alpha1 = calculateAlpha(omega);
 		double omega2 = M_PI * Fch / inputWAVhdr.fmt.SampleRate;
+		printf("omega2 %fl\n", omega2);
 		alpha2 = calculateAlpha(omega2);
-		//printf("alpha1: %d \n", alpha1);
-		//printf("alpha2: %d \n", alpha2);
-
-		alpha1 = FRACT_NUM(0.9);
-		alpha2 = FRACT_NUM (-0.4);
-		double temp = alpha2.toDouble();
 		printf("alpha1: %fl \n", alpha1.toDouble());
 		printf("alpha2: %fl \n", alpha2.toDouble());
+
+		//alpha1 = FRACT_NUM(0.9);
+		//alpha2 = FRACT_NUM (-0.4);
+	
+		
 		calculateShelvingCoeff(alpha1, coeffL);
 		calculateShelvingCoeff(alpha2, coeffH);
 

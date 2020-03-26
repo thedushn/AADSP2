@@ -57,7 +57,7 @@ void calculateShelvingCoeff(DSPfract c_alpha, DSPfract* output)
 	*(output + 3) = t2;
 
 	for (int i = 0; i < 4; i++) {
-		printf("Coefecient%d: %d \n", i, *(output + i));
+		printf("Coefecient%d: %fl \n", i, *(output + i));
 	}
 }
 
@@ -66,8 +66,8 @@ DSPfract calculateAlpha(DSPfract omega)
 {
 	DSPfract a1 = 1 / cos(omega) + tan(omega);
 	DSPfract a2 = 1 / cos(omega) - tan(omega);
-	printf("a1: %d \n", a1);
-	printf("a2: %d \n", a2);
+	printf("a1: %fl \n", a1);
+	printf("a2: %fl \n", a2);
 	return (a1 >= -1 && a1 <= 1) ? a1 : a2;
 }
 
@@ -129,8 +129,9 @@ void processing() {
 		/*printf("z_xH0 %fl z_xH1  %fl\n", *z_xH, *z_xH + 1);*/
 	//	printf("sampleBuffer[%d] %fl\n",i, *sb_ptr0);
 		//*sb_ptr0++;
-		*sb_ptr0++= shelvingHP(*sb_ptr0, *z_xH, *z_yH);
-		//*sb_ptr0++ = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+		*sb_ptr0= shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+		*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+		*sb_ptr0++;
 		
 		/**sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH+1), *(z_yH+1));
 		*sb_ptr1++ = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
@@ -270,16 +271,16 @@ DSPint main(DSPint argc, char* argv[])
 	//-------------------------------------------------	
 	{
 		DSPfract omega =  M_PI * Fcl / inputWAVhdr.fmt.SampleRate;
-		printf("omega %d/n", omega);
+		printf("omega %fl \n", omega);
 		alpha1= calculateAlpha(omega);
 		DSPfract omega2 =  M_PI * Fch / inputWAVhdr.fmt.SampleRate;
+		printf("omega %fl \n", omega2);
 		 alpha2 = calculateAlpha(omega2);
-	/*	 printf("alpha1: %d \n", alpha1);
-		 printf("alpha2: %d \n", alpha2);*/
-		 alpha1 = 0.9;
-		 alpha2 = -0.4;
-		 printf("alpha1: %d \n", alpha1);
-		 printf("alpha2: %d \n", alpha2);
+		
+		/* alpha1 = 0.9;
+		 alpha2 = -0.4;*/
+		 printf("alpha1: %fl \n", alpha1);
+		 printf("alpha2: %fl \n", alpha2);
 		calculateShelvingCoeff(alpha1, coeffL);
 		calculateShelvingCoeff(alpha2, coeffH);
 
