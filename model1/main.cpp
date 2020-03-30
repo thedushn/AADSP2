@@ -116,6 +116,14 @@ void processing() {
 	DSPint i;
 	DSPint k;
 
+	sb_ptr0 = sampleBuffer[0];
+	sb_ptr1 = sampleBuffer[1];
+	sb_ptr2 = sampleBuffer[2];
+	sb_ptr3 = sampleBuffer[3];
+	sb_ptr4 = sampleBuffer[4];
+	sb_ptr5 = sampleBuffer[5];
+	sb_ptr6 = sampleBuffer[6];
+	sb_ptr7 = sampleBuffer[7];
 
 	for (i = 0; i < BLOCK_SIZE; i++)
 	{
@@ -151,14 +159,7 @@ void processing() {
 
 
 	}
-	sb_ptr0 = sampleBuffer[0];
-	sb_ptr1 = sampleBuffer[1];
-	sb_ptr2 = sampleBuffer[2];
-	sb_ptr3 = sampleBuffer[3];
-	sb_ptr4 = sampleBuffer[4];
-	sb_ptr5 = sampleBuffer[5];
-	sb_ptr6 = sampleBuffer[6];
-	sb_ptr7 = sampleBuffer[7];
+	
 };
 
 DSPint main(DSPint argc, char* argv[])
@@ -269,7 +270,9 @@ DSPint main(DSPint argc, char* argv[])
 		
 		 alpha2 = calculateAlpha(omega2);
 		
-		
+		 //hardcoding 
+		 alpha1 = 0.5;
+		 alpha2 = -0.5;
 		calculateShelvingCoeff(alpha1, coeffL);
 		calculateShelvingCoeff(alpha2, coeffH);
 

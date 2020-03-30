@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CL_PROJECT>
+    <argv>.\TestStreams\speech.wav OutStreams\Tone_3.wav  "1" "0.5" "0.5" "500" "1000" </argv>
+    <FILE_IO_CFG block_type="Input" channels_per_line="2" delay="0" file_mode="PCM" index="0" justification="Left" sample_format="LittleEndian" sample_rate="48000" sample_size="32"/>
+    <FILE_IO_CFG block_type="Output" channels_per_line="2" delay="0" file_mode="PCM" index="0" justification="Left" sample_format="LittleEndian" sample_rate="48000" sample_size="32"/>
+    <MEMORY_CFG>
+        <ULD_FILE disk_path="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.uld"/>
+    </MEMORY_CFG>
+    <PROFILE_CFG enable="on"/>
+    <SCP_CFG load_delay="0"/>
+</CL_PROJECT>

@@ -5,15 +5,9 @@
 
 /* Basic constants */
 #define BLOCK_SIZE 16
-#define NUM_CHANNELS 6
-#define DELAY_SIZE 64 // prvi stepen 2 veci od 48 (broj odbiraka ekvivalentan 1ms)
+#define NUM_CHANNELS 8
 
-#define LEFT 0
-#define CENTER 1
-#define RIGHT 2
-#define LEFT_SUR 3
-#define RIGHT_SUR 4
-#define LFE 5
+
 
 /* DSP type definitions */
 typedef short DSPshort;					/* DSP integer */
@@ -21,5 +15,13 @@ typedef unsigned short DSPushort;		/* DSP unsigned integer */
 typedef int DSPint;						/* native integer */
 typedef fract DSPfract;				    /* DSP fixed-point fractional */
 typedef long_accum DSPaccum;			/* DSP fixed-point fractional */
+
+
+#define M_PI  3.14159265358979323846
+
+static DSPint Fcl;
+static DSPint Fch;
+static DSPfract alpha1 = FRACT_NUM(0.0);
+static DSPfract alpha2 = FRACT_NUM(0.0);
 
 #endif //_COMMON_H

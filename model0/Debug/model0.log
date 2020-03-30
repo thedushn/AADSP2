@@ -1,2 +1,1 @@
-﻿  main.cpp
-  model0.vcxproj -> C:\Users\thedushn\Desktop\AADSP2\new_project\Zadatak\New folder\AADSP2\Debug\model0.exe
+﻿C:\Users\thedushn\Desktop\AADSP2\new_project\Zadatak\New folder\AADSP2\model0\model0.vcxproj : error MSB4057: The target "Deploy" does not exist in the project.
