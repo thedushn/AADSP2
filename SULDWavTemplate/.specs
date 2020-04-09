@@ -94,6 +94,12 @@
                 <isExcluded>false</isExcluded>
                 <outputFolder>output</outputFolder>
             </objectFile>
+            <objectFile isExported="false" isAdditional="false">
+                <objectFilePath>src/iir.O</objectFilePath>
+                <containingProject>WavTemplate</containingProject>
+                <isExcluded>false</isExcluded>
+                <outputFolder>output</outputFolder>
+            </objectFile>
         </objectFiles>
         <core>DSP_A</core>
     </ns2:overlay_settings>

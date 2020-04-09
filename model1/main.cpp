@@ -8,8 +8,19 @@
 
 
 #include "iir.h"
-#include "arguments.h"
+#include "common.h"
+double coeffL[4] = { 0,0,0,0 };
+double coeffH[4] = { 0,0,0,0 };
 
+static double K1;
+static double K2;
+static double Fcl;
+static double Fch;
+static double alpha1;
+static double alpha2;
+// Enable
+int enable = 1;
+int nChannels;
 
 double sampleBuffer[NUM_CHANNELS][BLOCK_SIZE];
 DSPfract z_xL[NUM_CHANNELS][2];
@@ -113,8 +124,9 @@ DSPfract shelvingHP(DSPfract input, DSPfract* z_x, DSPfract* z_y) {
 
 void processing() {
 
+	
+
 	DSPint i;
-	DSPint k;
 
 	sb_ptr0 = sampleBuffer[0];
 	sb_ptr1 = sampleBuffer[1];
@@ -127,37 +139,175 @@ void processing() {
 
 	for (i = 0; i < BLOCK_SIZE; i++)
 	{
-		
-		*sb_ptr0=  shelvingHP(*sb_ptr0, *z_xH, *z_yH);
-		*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
-		*sb_ptr0++;
+		if (nChannels == 1) {
 
-		*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
-		*sb_ptr1 = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
-		*sb_ptr1++;
-		
-		*sb_ptr2 = shelvingHP(*sb_ptr2, *(z_xH + 2), *(z_yH + 2));
-		*sb_ptr2++ = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
+			*sb_ptr0 = shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+			*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+			*sb_ptr0++;
+		}
+		else if (nChannels == 2) {
 
-		*sb_ptr3 = shelvingHP(*sb_ptr3, *(z_xH + 3), *(z_yH + 3));
-		*sb_ptr3++ = shelvingLP(*sb_ptr3, *(z_xL + 3), *(z_yL + 3));
+			*sb_ptr0 = shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+			*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+			*sb_ptr0++;
 
-		*sb_ptr4 = shelvingHP(*sb_ptr4, *(z_xH + 4), *(z_yH + 4));
-		*sb_ptr4++ = shelvingLP(*sb_ptr4, *(z_xL + 4), *(z_yL + 4));
+			*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
+			*sb_ptr1 = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+			*sb_ptr1++;
 
-		*sb_ptr5 = shelvingHP(*sb_ptr5, *(z_xH + 5), *(z_yH + 5));
-		*sb_ptr5++ = shelvingLP(*sb_ptr5, *(z_xL + 5), *(z_yL + 5));
+		}
+		else if (nChannels == 3) {
 
-		*sb_ptr6 = shelvingHP(*sb_ptr6, *(z_xH + 6), *(z_yH + 6));
-		*sb_ptr6++ = shelvingLP(*sb_ptr6, *(z_xL + 6), *(z_yL + 6));
+			*sb_ptr0 = shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+			*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+			*sb_ptr0++;
 
-		*sb_ptr7 = shelvingHP(*sb_ptr7, *(z_xH + 7), *(z_yH + 7));
-		*sb_ptr7++ = shelvingLP(*sb_ptr7, *(z_xL + 7), *(z_yL + 7));
+			*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
+			*sb_ptr1 = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+			*sb_ptr1++;
 
-	
+			*sb_ptr2 = shelvingHP(*sb_ptr2, *(z_xH + 2), *(z_yH + 2));
+			*sb_ptr2 = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
+			*sb_ptr2++;
+		}
+		else if (nChannels == 4) {
 
 
+			*sb_ptr0 = shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+			*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+			*sb_ptr0++;
 
+			*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
+			*sb_ptr1 = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+			*sb_ptr1++;
+
+			*sb_ptr2 = shelvingHP(*sb_ptr2, *(z_xH + 2), *(z_yH + 2));
+			*sb_ptr2 = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
+			*sb_ptr2++;
+
+			*sb_ptr3 = shelvingHP(*sb_ptr3, *(z_xH + 3), *(z_yH + 3));
+			*sb_ptr3 = shelvingLP(*sb_ptr3, *(z_xL + 3), *(z_yL + 3));
+			*sb_ptr3++;
+
+		}
+		else if (nChannels == 5) {
+
+			*sb_ptr0 = shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+			*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+			*sb_ptr0++;
+
+			*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
+			*sb_ptr1 = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+			*sb_ptr1++;
+
+			*sb_ptr2 = shelvingHP(*sb_ptr2, *(z_xH + 2), *(z_yH + 2));
+			*sb_ptr2 = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
+			*sb_ptr2++;
+
+			*sb_ptr3 = shelvingHP(*sb_ptr3, *(z_xH + 3), *(z_yH + 3));
+			*sb_ptr3 = shelvingLP(*sb_ptr3, *(z_xL + 3), *(z_yL + 3));
+			*sb_ptr3++;
+
+			*sb_ptr4 = shelvingHP(*sb_ptr4, *(z_xH + 4), *(z_yH + 4));
+			*sb_ptr4 = shelvingLP(*sb_ptr4, *(z_xL + 4), *(z_yL + 4));
+			*sb_ptr4++;
+
+		}
+		else if (nChannels == 6) {
+
+
+			*sb_ptr0 = shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+			*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+			*sb_ptr0++;
+
+			*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
+			*sb_ptr1 = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+			*sb_ptr1++;
+
+			*sb_ptr2 = shelvingHP(*sb_ptr2, *(z_xH + 2), *(z_yH + 2));
+			*sb_ptr2 = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
+			*sb_ptr2++;
+
+			*sb_ptr3 = shelvingHP(*sb_ptr3, *(z_xH + 3), *(z_yH + 3));
+			*sb_ptr3 = shelvingLP(*sb_ptr3, *(z_xL + 3), *(z_yL + 3));
+			*sb_ptr3++;
+
+			*sb_ptr4 = shelvingHP(*sb_ptr4, *(z_xH + 4), *(z_yH + 4));
+			*sb_ptr4 = shelvingLP(*sb_ptr4, *(z_xL + 4), *(z_yL + 4));
+			*sb_ptr4++;
+
+			*sb_ptr5 = shelvingHP(*sb_ptr5, *(z_xH + 5), *(z_yH + 5));
+			*sb_ptr5 = shelvingLP(*sb_ptr5, *(z_xL + 5), *(z_yL + 5));
+			*sb_ptr5++;
+		}
+		else if (nChannels == 7) {
+
+
+			*sb_ptr0 = shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+			*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+			*sb_ptr0++;
+
+			*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
+			*sb_ptr1 = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+			*sb_ptr1++;
+
+			*sb_ptr2 = shelvingHP(*sb_ptr2, *(z_xH + 2), *(z_yH + 2));
+			*sb_ptr2 = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
+			*sb_ptr2++;
+
+			*sb_ptr3 = shelvingHP(*sb_ptr3, *(z_xH + 3), *(z_yH + 3));
+			*sb_ptr3 = shelvingLP(*sb_ptr3, *(z_xL + 3), *(z_yL + 3));
+			*sb_ptr3++;
+
+			*sb_ptr4 = shelvingHP(*sb_ptr4, *(z_xH + 4), *(z_yH + 4));
+			*sb_ptr4 = shelvingLP(*sb_ptr4, *(z_xL + 4), *(z_yL + 4));
+			*sb_ptr4++;
+
+			*sb_ptr5 = shelvingHP(*sb_ptr5, *(z_xH + 5), *(z_yH + 5));
+			*sb_ptr5 = shelvingLP(*sb_ptr5, *(z_xL + 5), *(z_yL + 5));
+			*sb_ptr5++;
+
+			*sb_ptr6 = shelvingHP(*sb_ptr6, *(z_xH + 6), *(z_yH + 6));
+			*sb_ptr6++ = shelvingLP(*sb_ptr6, *(z_xL + 6), *(z_yL + 6));
+			*sb_ptr6++;
+
+		}
+		else
+		{
+
+
+			*sb_ptr0 = shelvingHP(*sb_ptr0, *z_xH, *z_yH);
+			*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
+			*sb_ptr0++;
+
+			*sb_ptr1 = shelvingHP(*sb_ptr1, *(z_xH + 1), *(z_yH + 1));
+			*sb_ptr1 = shelvingLP(*sb_ptr1, *(z_xL + 1), *(z_yL + 1));
+			*sb_ptr1++;
+
+			*sb_ptr2 = shelvingHP(*sb_ptr2, *(z_xH + 2), *(z_yH + 2));
+			*sb_ptr2 = shelvingLP(*sb_ptr2, *(z_xL + 2), *(z_yL + 2));
+			*sb_ptr2++;
+
+			*sb_ptr3 = shelvingHP(*sb_ptr3, *(z_xH + 3), *(z_yH + 3));
+			*sb_ptr3 = shelvingLP(*sb_ptr3, *(z_xL + 3), *(z_yL + 3));
+			*sb_ptr3++;
+
+			*sb_ptr4 = shelvingHP(*sb_ptr4, *(z_xH + 4), *(z_yH + 4));
+			*sb_ptr4 = shelvingLP(*sb_ptr4, *(z_xL + 4), *(z_yL + 4));
+			*sb_ptr4++;
+
+			*sb_ptr5 = shelvingHP(*sb_ptr5, *(z_xH + 5), *(z_yH + 5));
+			*sb_ptr5 = shelvingLP(*sb_ptr5, *(z_xL + 5), *(z_yL + 5));
+			*sb_ptr5++;
+
+			*sb_ptr6 = shelvingHP(*sb_ptr6, *(z_xH + 6), *(z_yH + 6));
+			*sb_ptr6++ = shelvingLP(*sb_ptr6, *(z_xL + 6), *(z_yL + 6));
+			*sb_ptr6++;
+
+			*sb_ptr7 = shelvingHP(*sb_ptr7, *(z_xH + 7), *(z_yH + 7));
+			*sb_ptr7 = shelvingLP(*sb_ptr7, *(z_xL + 7), *(z_yL + 7));
+			*sb_ptr7++;
+		}
 	}
 	
 };
@@ -246,7 +396,7 @@ DSPint main(DSPint argc, char* argv[])
 	//-------------------------------------------------	
 	outputWAVhdr = inputWAVhdr;
 	outputWAVhdr.fmt.NumChannels = inputWAVhdr.fmt.NumChannels; // change number of channels
-
+	nChannels = inputWAVhdr.fmt.NumChannels;
 	DSPint oneChannelSubChunk2Size = inputWAVhdr.data.SubChunk2Size / inputWAVhdr.fmt.NumChannels;
 	DSPint oneChannelByteRate = inputWAVhdr.fmt.ByteRate / inputWAVhdr.fmt.NumChannels;
 	DSPint oneChannelBlockAlign = inputWAVhdr.fmt.BlockAlign / inputWAVhdr.fmt.NumChannels;

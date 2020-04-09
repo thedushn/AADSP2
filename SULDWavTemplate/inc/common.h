@@ -24,4 +24,5 @@ static DSPint Fch;
 static DSPfract alpha1 = FRACT_NUM(0.0);
 static DSPfract alpha2 = FRACT_NUM(0.0);
 
+DSPfract first_order_IIR(DSPfract input,__memX DSPfract* coefficients,__memX DSPfract* z_x,__memY DSPfract* z_y);
 #endif //_COMMON_H

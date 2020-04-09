@@ -204,19 +204,7 @@ int main(int argc, char* argv[])
 	}
 
 
-	double p;
-	int s, c;
 	
-	cordic_main();
-	//for (i = 0; i<50; i++)
-	//{
-	//	p = (i / 50.0)*M_PI / 2;
-	//	//use 32 iterations
-	//	double p1 = p * MUL;
-	//	cordic((p*MUL), &s, &c, 32);
-	//	//these values should be nearly equal
-	//	printf("%f : %f\n", s / MUL, sin(p));
-	//}
 	
 
 	FILE *wav_in = NULL;

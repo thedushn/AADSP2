@@ -11,8 +11,8 @@ SET COMPARE="..//tools//PCMCompare.exe"
 
 : Delete log files first.
 ::/Q            Quiet mode, do not ask if ok to delete on global wildcard
-del /Q OutCmp\*
-del /Q OutStreams\*
+::del /Q OutCmp\*
+::del /Q OutStreams\*
 
 
 
@@ -24,7 +24,7 @@ del /Q OutStreams\*
 
 "Debug\model0.exe" ".\TestStreams\speech.wav" ".\OutStreams\Tone_0.wav" "1" "0.5" "0.5" "500" "1000"
 "Debug\model1.exe" ".\TestStreams\speech.wav" ".\OutStreams\Tone_1.wav" "1" "0.5" "0.5" "500" "1000"
-"Debug\model2.1.exe" ".\TestStreams\speech.wav" ".\OutStreams\Tone_2.wav" "1" "0.5" "0.5" "500" "1000"
+"Debug\model2.exe" ".\TestStreams\speech.wav" ".\OutStreams\Tone_2.wav" "1" "0.5" "0.5" "500" "1000"
 ::"model2.1.exe" "../TestStreams/speech.wav" "../OutStreams/Tone_2.wav" "1" "0.5" "0.5" "1000" "15000"
 :: TO DO: Call model 1 executable and name output file: out_speech_1.wav
 :: TO DO: Call model 2 executable and name output file: out_speech_2.wav
@@ -37,7 +37,7 @@ echo     model 3
 		@echo     ^<FILE_IO_CFG block_type="Input" channels_per_line="2" delay="0" file_mode="PCM" index="0" justification="Left" sample_format="LittleEndian" sample_rate="48000" sample_size="32"/^>
 		@echo     ^<FILE_IO_CFG block_type="Output" channels_per_line="2" delay="0" file_mode="PCM" index="0" justification="Left" sample_format="LittleEndian" sample_rate="48000" sample_size="32"/^>
 		@echo     ^<MEMORY_CFG^>
-		@echo         ^<ULD_FILE disk_path="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.uld"/^>
+		@echo         ^<ULD_FILE disk_path="C:\Users\thedushn\Desktop\ffsfasfas\AADSP2-master/SULDWavTemplate/output/standalone/WavTemplate.uld"/^>
 		@echo     ^</MEMORY_CFG^>
 		@echo     ^<PROFILE_CFG enable="on"/^>
 		@echo     ^<SCP_CFG load_delay="0"/^>
@@ -47,7 +47,7 @@ echo     model 3
 
 
 : Execute Model 3
-	%SIMULATOR% -project SimulatorConfigurationTemp.sbr 
+	%SIMULATOR% -project SimulatorConfigurationTemp.sbr -max_cycles 1000000
 
 
 

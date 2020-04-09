@@ -1,0 +1,29 @@
+	.public _first_order_IIR
+	.code_ovly
+
+_first_order_IIR:
+	
+	x3=a0; #input
+
+	xmem[i1]=a0; # vrednost z_x =input
+	
+
+	
+	
+	x1=xmem[i0]; i0+=1 #coef u x1 coef++
+	a0=x1*x3; i1+=1  #coef*input  x++
+	x1=xmem[i0]; i0+=2 #coef coef+2
+	x0=xmem[i1]; #x 
+	a0+=x1*x0; i4+=1 #coeff*x  y++
+	y0=ymem[i4]; #y 
+	 x1=xmem[i0]; #coeff
+	 a0-=x1*y0;  #coeff*y y--
+	 b2=a0;
+	 ymem[i4]=b2;i4-=1  #z_y+1=z_y
+	ymem[i4]=b2; # z_y=output
+	xmem[i1]=x3; # z_x+1=input
+	
+	
+
+	ret
+	

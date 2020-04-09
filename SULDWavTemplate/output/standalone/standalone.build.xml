@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project basedir="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate" name="WavTemplate">
+<project basedir="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate" name="WavTemplate">
 	<target description="Compiling .c files..." name="ccc">
-		<delete file="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.O"/>
-		<delete file="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.s"/>
+		<delete file="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.O"/>
+		<delete file="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.s"/>
 		<exec executable="C:/CirrusDSP/bin/ccc2" failonerror="true" resultProperty="cccResult0">
 			<env key="PATH" path="C:/CirrusDSP/bin/:${env.PATH}"/>
-			<arg value="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c"/>
+			<arg value="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c"/>
 			<arg value="-S"/>
 			<arg value="-ruf"/>
 			<arg value="-fcse"/>
@@ -31,8 +31,8 @@
 			<arg value="-D_MUI_VERSION_=020000"/>
 			<arg value="-IC:/CirrusDSP/include/"/>
 			<arg value="-IC:/CirrusDSP/include/dsplib/"/>
-			<arg value="-IC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/inc/"/>
-			<arg value="-oC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.s"/>
+			<arg value="-IC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/inc/"/>
+			<arg value="-oC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.s"/>
 			<arg value="-D_LOCAL_SRC_PATH_=src/"/>
 			<arg value="-D_LOCAL_INC_PATH_=inc/"/>
 			<arg value="-D_ROUTER_INC_PATH_=rom_inc/"/>
@@ -49,9 +49,9 @@
 		<fail message="Please check compiler errors."/>
 	</target>
 	<target description="Assembling .a and .s files..." name="casm">
-		<delete file="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.O"/>
+		<delete file="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.O"/>
 		<exec executable="C:/CirrusDSP/bin/casm" failonerror="true" resultProperty="casmResult0">
-			<arg value="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.s"/>
+			<arg value="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.s"/>
 			<arg value="--debug"/>
 			<arg value="-c"/>
 			<arg value="-s"/>
@@ -67,9 +67,36 @@
 			<arg value="-D_MUI_VERSION_=020000"/>
 			<arg value="-IC:/CirrusDSP/include/"/>
 			<arg value="-IC:/CirrusDSP/include/dsplib/"/>
-			<arg value="-IC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/inc/"/>
-			<arg value="-lC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.lst"/>
-			<arg value="-oC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.O"/>
+			<arg value="-IC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/inc/"/>
+			<arg value="-lC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.lst"/>
+			<arg value="-oC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.O"/>
+			<arg value="-iC:/CirrusDSP/crystal32/common/inc/base.h"/>
+			<arg value="-D_LOCAL_SRC_PATH_=src/"/>
+			<arg value="-D_LOCAL_INC_PATH_=inc/"/>
+			<arg value="-D_ROUTER_INC_PATH_=rom_inc/"/>
+		</exec>
+		<delete file="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/iir.O"/>
+		<exec executable="C:/CirrusDSP/bin/casm" failonerror="true" resultProperty="casmResult1">
+			<arg value="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/iir.a"/>
+			<arg value="--debug"/>
+			<arg value="-c"/>
+			<arg value="-s"/>
+			<arg value="-e"/>
+			<arg value="--cdl"/>
+			<arg value="-D_TOOLS_VERSION_=0x0701"/>
+			<arg value="-D_SLOT_=0"/>
+			<arg value="-D_OVLY_=standalone"/>
+			<arg value="-D_OVLY_REVISION_=020000"/>
+			<arg value="-D_VERSION_=00"/>
+			<arg value="-D_DSP_=a"/>
+			<arg value="-D_COMMON_INC_PATH_=C:/CirrusDSP/crystal32/common/inc/"/>
+			<arg value="-D_TARGET_FAMILY_=crystal32"/>
+			<arg value="-D_MUI_VERSION_=020000"/>
+			<arg value="-IC:/CirrusDSP/include/"/>
+			<arg value="-IC:/CirrusDSP/include/dsplib/"/>
+			<arg value="-IC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/inc/"/>
+			<arg value="-lC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/iir.lst"/>
+			<arg value="-oC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/iir.O"/>
 			<arg value="-iC:/CirrusDSP/crystal32/common/inc/base.h"/>
 			<arg value="-D_LOCAL_SRC_PATH_=src/"/>
 			<arg value="-D_LOCAL_INC_PATH_=inc/"/>
@@ -80,6 +107,9 @@
 				<not>
 					<equals arg1="${casmResult0}" arg2="0"/>
 				</not>
+				<not>
+					<equals arg1="${casmResult1}" arg2="0"/>
+				</not>
 			</or>
 		</condition>
 	</target>
@@ -88,9 +118,10 @@
 	</target>
 	<target description="Linking files..." name="clink">
 		<exec executable="C:/CirrusDSP/bin/clink" failonerror="true">
-			<arg value="-oC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.img"/>
+			<arg value="-oC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/WavTemplate.img"/>
 			<arg value="-fC:/CirrusDSP/crystal32/memory_maps/v00.mem.xml"/>
-			<arg value="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.O"/>
+			<arg value="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.O"/>
+			<arg value="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/iir.O"/>
 			<arg value="--output_type=RAM"/>
 			<arg value="--overlay_type=standalone"/>
 			<arg value="-lC:/CirrusDSP/lib/"/>
@@ -101,8 +132,8 @@
 	<target depends="clink" description="Creating .uld file..." name="lnkuld">
 		<exec executable="C:/CirrusDSP/bin/lnkuld" failonerror="true">
 			<arg value="-ja"/>
-			<arg value="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.img"/>
-			<arg value="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.uld"/>
+			<arg value="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/WavTemplate.img"/>
+			<arg value="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/WavTemplate.uld"/>
 		</exec>
 	</target>
 </project>

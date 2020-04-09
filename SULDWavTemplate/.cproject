@@ -18,20 +18,20 @@
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 				<configuration buildProperties="" description="" id="clide.configuration.id" name="ClideConfiguration" parent="org.eclipse.cdt.build.core.prefbase.cfg">
 					<folderInfo id="clide.configuration.id." name="/" resourcePath="">
-						<toolChain id="org.eclipse.cdt.build.core.prefbase.toolchain.1049965225" name="No ToolChain" resourceTypeBasedDiscovery="false" superClass="org.eclipse.cdt.build.core.prefbase.toolchain">
-							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.1049965225.839207228" name=""/>
-							<builder id="org.eclipse.cdt.build.core.settings.default.builder.1405149794" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
-							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.266206253" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs"/>
-							<tool id="org.eclipse.cdt.build.core.settings.holder.1818407747" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder">
-								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1991775597" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
+						<toolChain id="org.eclipse.cdt.build.core.prefbase.toolchain.125565581" name="No ToolChain" resourceTypeBasedDiscovery="false" superClass="org.eclipse.cdt.build.core.prefbase.toolchain">
+							<targetPlatform id="org.eclipse.cdt.build.core.prefbase.toolchain.125565581.1324709679" name=""/>
+							<builder id="org.eclipse.cdt.build.core.settings.default.builder.1830189615" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="org.eclipse.cdt.build.core.settings.default.builder"/>
+							<tool id="org.eclipse.cdt.build.core.settings.holder.libs.523551109" name="holder for library settings" superClass="org.eclipse.cdt.build.core.settings.holder.libs"/>
+							<tool id="org.eclipse.cdt.build.core.settings.holder.1917656805" name="Assembly" superClass="org.eclipse.cdt.build.core.settings.holder">
+								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.161452514" languageId="org.eclipse.cdt.core.assembly" languageName="Assembly" sourceContentType="org.eclipse.cdt.core.asmSource" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
-							<tool id="org.eclipse.cdt.build.core.settings.holder.393670591" name="CCC" superClass="org.eclipse.cdt.build.core.settings.holder">
-								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1546765787" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
+							<tool id="org.eclipse.cdt.build.core.settings.holder.1223231015" name="CCC" superClass="org.eclipse.cdt.build.core.settings.holder">
+								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1405966297" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
 									<listOptionValue builtIn="false" value="C:/CirrusDSP/include/"/>
 									<listOptionValue builtIn="false" value="C:/CirrusDSP/include/dsplib/"/>
-									<listOptionValue builtIn="false" value="C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/inc/"/>
+									<listOptionValue builtIn="false" value="C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/inc/"/>
 								</option>
-								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1364164357" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
+								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.898497876" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_TOOLS_VERSION_"/>
 									<listOptionValue builtIn="false" value="_SLOT_"/>
 									<listOptionValue builtIn="false" value="_OVLY_"/>
@@ -42,10 +42,10 @@
 									<listOptionValue builtIn="false" value="_TARGET_FAMILY_"/>
 									<listOptionValue builtIn="false" value="_MUI_VERSION_"/>
 								</option>
-								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.2057210170" languageId="clide.debug.core.language.ccc" languageName="CCC" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
+								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.1895167240" languageId="clide.debug.core.language.ccc" languageName="CCC" sourceContentType="org.eclipse.cdt.core.cSource,org.eclipse.cdt.core.cHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
-							<tool id="org.eclipse.cdt.build.core.settings.holder.902892088" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder">
-								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.222945081" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
+							<tool id="org.eclipse.cdt.build.core.settings.holder.1979141518" name="GNU C++" superClass="org.eclipse.cdt.build.core.settings.holder">
+								<inputType id="org.eclipse.cdt.build.core.settings.holder.inType.694143122" languageId="org.eclipse.cdt.core.g++" languageName="GNU C++" sourceContentType="org.eclipse.cdt.core.cxxSource,org.eclipse.cdt.core.cxxHeader" superClass="org.eclipse.cdt.build.core.settings.holder.inType"/>
 							</tool>
 						</toolChain>
 					</folderInfo>

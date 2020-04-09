@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Model2.1</ProjectName>
+    <ProjectName>Model2</ProjectName>
     <ProjectGuid>{A3F8F1EB-635A-472A-89B4-A77D32D316C3}</ProjectGuid>
     <RootNamespace>filterTest</RootNamespace>
     <Keyword>Win32Proj</Keyword>

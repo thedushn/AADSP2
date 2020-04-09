@@ -1,17 +1,18 @@
 ﻿  WAVheader.cpp
   stdfix_emu.cpp
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model2\stdfix_emu.cpp(56): warning C4309: 'argument': truncation of constant value
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model2\stdfix_emu.cpp(310): warning C4309: 'argument': truncation of constant value
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model2\stdfix_emu.cpp(518): warning C4244: '=': conversion from 'unsigned long' to 'char', possible loss of data
+c:\users\thedushn\desktop\ffsfasfas\aadsp2-master\model2\stdfix_emu.cpp(56): warning C4309: 'argument': truncation of constant value
+c:\users\thedushn\desktop\ffsfasfas\aadsp2-master\model2\stdfix_emu.cpp(310): warning C4309: 'argument': truncation of constant value
+c:\users\thedushn\desktop\ffsfasfas\aadsp2-master\model2\stdfix_emu.cpp(518): warning C4244: '=': conversion from 'unsigned long' to 'char', possible loss of data
   main.cpp
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model2\main.cpp(30): warning C4838: conversion from 'fract' to 'DSPfract' requires a narrowing conversion
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model2\main.cpp(31): warning C4838: conversion from 'fract' to 'DSPfract' requires a narrowing conversion
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model2\main.cpp(131): warning C4101: 'k': unreferenced local variable
+c:\users\thedushn\desktop\ffsfasfas\aadsp2-master\model2\main.cpp(30): warning C4838: conversion from 'fract' to 'DSPfract' requires a narrowing conversion
+c:\users\thedushn\desktop\ffsfasfas\aadsp2-master\model2\main.cpp(31): warning C4838: conversion from 'fract' to 'DSPfract' requires a narrowing conversion
+c:\users\thedushn\desktop\ffsfasfas\aadsp2-master\model2\main.cpp(131): warning C4101: 'k': unreferenced local variable
   iir.cpp
   fixed_point_math.cpp
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model2\fixed_point_math.cpp(455): warning C4309: '=': truncation of constant value
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model2\fixed_point_math.cpp(517): warning C4244: '=': conversion from 'unsigned long' to 'coyote_math::accumulator::guard_t', possible loss of data
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model2\fixed_point_math.cpp(527): warning C4309: '=': truncation of constant value
-c:\users\thedushn\desktop\aadsp2\new_project\zadatak\new folder\aadsp2\model2\fixed_point_math.cpp(557): warning C4309: '=': truncation of constant value
+c:\users\thedushn\desktop\ffsfasfas\aadsp2-master\model2\fixed_point_math.cpp(455): warning C4309: '=': truncation of constant value
+c:\users\thedushn\desktop\ffsfasfas\aadsp2-master\model2\fixed_point_math.cpp(517): warning C4244: '=': conversion from 'unsigned long' to 'coyote_math::accumulator::guard_t', possible loss of data
+c:\users\thedushn\desktop\ffsfasfas\aadsp2-master\model2\fixed_point_math.cpp(527): warning C4309: '=': truncation of constant value
+c:\users\thedushn\desktop\ffsfasfas\aadsp2-master\model2\fixed_point_math.cpp(557): warning C4309: '=': truncation of constant value
   Generating Code...
-  model2.vcxproj -> C:\Users\thedushn\Desktop\AADSP2\new_project\Zadatak\New folder\AADSP2\Debug\model2.exe
+  LINK : C:\Users\thedushn\Desktop\ffsfasfas\AADSP2-master\Debug\model2.exe not found or not built by the last incremental link; performing full link
+  model2.vcxproj -> C:\Users\thedushn\Desktop\ffsfasfas\AADSP2-master\Debug\model2.exe

@@ -2,10 +2,10 @@
   Project: WavTemplate
 ===========================================
 Compiling .c files...
-   [delete] Deleting: C:\Users\thedushn\Desktop\AADSP2\new_project\Zadatak\New folder\AADSP2\SULDWavTemplate\output\standalone\src\main.O
-   [delete] Deleting: C:\Users\thedushn\Desktop\AADSP2\new_project\Zadatak\New folder\AADSP2\SULDWavTemplate\output\standalone\src\main.s
-C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c
-C:/CirrusDSP/bin/ccc2 C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c
+   [delete] Deleting: C:\Users\thedushn\Desktop\ffsfasfas\AADSP2-master\SULDWavTemplate\output\standalone\src\main.O
+   [delete] Deleting: C:\Users\thedushn\Desktop\ffsfasfas\AADSP2-master\SULDWavTemplate\output\standalone\src\main.s
+C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c
+C:/CirrusDSP/bin/ccc2 C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c
  -S
  -ruf
  -fcse
@@ -31,8 +31,8 @@ C:/CirrusDSP/bin/ccc2 C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New f
  -D_MUI_VERSION_=020000
  -IC:/CirrusDSP/include/
  -IC:/CirrusDSP/include/dsplib/
- -IC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/inc/
- -oC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.s
+ -IC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/inc/
+ -oC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.s
  -D_LOCAL_SRC_PATH_=src/
  -D_LOCAL_INC_PATH_=inc/
  -D_ROUTER_INC_PATH_=rom_inc/
@@ -64,111 +64,83 @@ C:/CirrusDSP/bin/ccc2 C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New f
      [exec]   #warning In this implementation assert does not emit info about file and line
      [exec]    ^
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 122: warning #1229: argument of type "DSPfract *" is incompatible with parameter (1 of clip) of type "long fract *"
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 79: warning #9: nested comment is not allowed
+     [exec]   	//		"\n\t a0=x0*x1;" /*i1+=1*/
+     [exec]   	  		                 ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 89: warning #9: nested comment is not allowed
+     [exec]   		output -= (*(++coefficients) * *(y ++));    /* A1 * y(n-1) */
+     [exec]   		                                            ^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 99: warning #9: nested comment is not allowed
+     [exec]   		/*z_x = input;	/* x(n-1) = x(n)   */
+     [exec]   		^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 99: warning #9: nested comment is not allowed
+     [exec]   		/*z_x = input;	/* x(n-1) = x(n)   */
+     [exec]   		              	^
+     [exec] 
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 148: warning #1229: argument of type "DSPfract *" is incompatible with parameter (1 of clip) of type "__memX long fract *"
      [exec]   	clip(&t1);
      [exec]   	     ^
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 125: warning #1229: argument of type "DSPfract *" is incompatible with parameter (1 of clip) of type "long fract *"
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 151: warning #1229: argument of type "DSPfract *" is incompatible with parameter (1 of clip) of type "__memX long fract *"
      [exec]   	clip(&t2);
      [exec]   	     ^
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 152: warning #1229: argument of type "__memX DSPfract *" is incompatible with parameter (2 of shelvingHP) of type "DSPfract *"
-     [exec]   		*sb_ptr0 =  shelvingHP(*sb_ptr0, *z_xH, *z_yH);
-     [exec]   		                                 ^
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 152: warning #1229: argument of type "__memX DSPfract *" is incompatible with parameter (3 of shelvingHP) of type "DSPfract *"
-     [exec]   		*sb_ptr0 =  shelvingHP(*sb_ptr0, *z_xH, *z_yH);
-     [exec]   		                                        ^
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 153: warning #1229: argument of type "__memX DSPfract *" is incompatible with parameter (2 of shelvingLP) of type "DSPfract *"
-     [exec]   		*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
-     [exec]   		                                ^
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 153: warning #1229: argument of type "__memX DSPfract *" is incompatible with parameter (3 of shelvingLP) of type "DSPfract *"
-     [exec]   		*sb_ptr0 = shelvingLP(*sb_ptr0, *z_xL, *z_yL);
-     [exec]   		                                       ^
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 268: warning #1229: argument of type "__memX DSPfract *" is incompatible with parameter (2 of calculateShelvingCoeff) of type "DSPfract *"
-     [exec]   			calculateShelvingCoeff(alpha1, coeffL);
-     [exec]   			                               ^
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 269: warning #1229: argument of type "__memX DSPfract *" is incompatible with parameter (2 of calculateShelvingCoeff) of type "DSPfract *"
-     [exec]   			calculateShelvingCoeff(alpha2, coeffH);
-     [exec]   			                               ^
-     [exec] 
      [exec] WARNING: '-unsafe-loop-optimization' is ignored when '-g' option is used!
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 45: warning #4007: Pointer to unspecified memory zone.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 349: warning #4007: Pointer to unspecified memory zone.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 79: warning #4007: Pointer to unspecified memory zone.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 351: warning #4007: Pointer to unspecified memory zone.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 79: warning #4007: Pointer to unspecified memory zone.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 352: warning #4007: Pointer to unspecified memory zone.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 94: warning #4007: Pointer to unspecified memory zone.
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 94: warning #4007: Pointer to unspecified memory zone.
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 117: warning #4007: Pointer to unspecified memory zone.
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 183: warning #4007: Pointer to unspecified memory zone.
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 185: warning #4007: Pointer to unspecified memory zone.
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 186: warning #4007: Pointer to unspecified memory zone.
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 284: info: Hardware loop is not emitted due to: 
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 450: info: Hardware loop is not emitted due to: 
      [exec] Upper bound and initial loop index value are not constant.
      [exec] Make them constant or try using -funsafe-loop-optimizations option.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 295: info: Hardware loop is not emitted due to: 
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 461: info: Hardware loop is not emitted due to: 
      [exec] Upper bound and initial loop index value are not constant.
      [exec] Make them constant or try using -funsafe-loop-optimizations option.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 280: info: Hardware loop is not emitted due to: 
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 446: info: Hardware loop is not emitted due to: 
      [exec] Upper bound and initial loop index value are not constant.
      [exec] Make them constant or try using -funsafe-loop-optimizations option.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 70: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 116: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 77: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 136: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 99: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 365: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 110: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 366: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 84: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 368: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 90: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 369: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 199: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 372: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 200: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 373: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 202: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 375: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 203: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 376: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 206: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 383: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 207: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 444: info: Call to runtime function __div. Look at the separate document for information how to avoid this call.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 209: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 453: info: SRS is used at this line.
      [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 210: info: SRS is used at this line.
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 217: info: SRS is used at this line.
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 278: info: Call to runtime function __div. Look at the separate document for information how to avoid this call.
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 287: info: SRS is used at this line.
-     [exec] 
-     [exec] "C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/src/main.c", line 297: info: SRS is used at this line.
+     [exec] "C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/main.c", line 463: info: SRS is used at this line.
      [exec] 
      [exec] FRONT END TIME: 1 seconds
-     [exec] BACK  END TIME: 1 seconds
+     [exec] BACK  END TIME: 17 seconds
      [exec] 
 Assembling .a and .s files...
-C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.s
-C:/CirrusDSP/bin/casm C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.s
+C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.s
+C:/CirrusDSP/bin/casm C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.s
  --debug
  -c
  -s
@@ -184,23 +156,49 @@ C:/CirrusDSP/bin/casm C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New f
  -D_MUI_VERSION_=020000
  -IC:/CirrusDSP/include/
  -IC:/CirrusDSP/include/dsplib/
- -IC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/inc/
- -lC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.lst
- -oC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.O
+ -IC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/inc/
+ -lC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.lst
+ -oC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.O
+ -iC:/CirrusDSP/crystal32/common/inc/base.h
+ -D_LOCAL_SRC_PATH_=src/
+ -D_LOCAL_INC_PATH_=inc/
+ -D_ROUTER_INC_PATH_=rom_inc/
+C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/iir.a
+C:/CirrusDSP/bin/casm C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/src/iir.a
+ --debug
+ -c
+ -s
+ -e
+ --cdl
+ -D_TOOLS_VERSION_=0x0701
+ -D_SLOT_=0
+ -D_OVLY_=standalone
+ -D_OVLY_REVISION_=020000
+ -D_VERSION_=00
+ -D_DSP_=a
+ -D_COMMON_INC_PATH_=C:/CirrusDSP/crystal32/common/inc/
+ -D_TARGET_FAMILY_=crystal32
+ -D_MUI_VERSION_=020000
+ -IC:/CirrusDSP/include/
+ -IC:/CirrusDSP/include/dsplib/
+ -IC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/inc/
+ -lC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/iir.lst
+ -oC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/iir.O
  -iC:/CirrusDSP/crystal32/common/inc/base.h
  -D_LOCAL_SRC_PATH_=src/
  -D_LOCAL_INC_PATH_=inc/
  -D_ROUTER_INC_PATH_=rom_inc/
 Linking files...
 C:/CirrusDSP/bin/clink
- -oC:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.img
+ -oC:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/WavTemplate.img
  -fC:/CirrusDSP/crystal32/memory_maps/v00.mem.xml
  --output_type=RAM
  --overlay_type=standalone
  -lC:/CirrusDSP/lib/
  -lC:/CirrusDSP/lib/dsplib
  -lC:/CirrusDSP/lib/dsplib/crystal32/
-C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/src/main.O
+C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/main.O
+C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/src/iir.O
      [exec] Warning #507: Unknown class: Y_OS_CC_GLOBALS
      [exec]             for the segment: CC_HEAPSTEAL_VALUES
      [exec]             from the module: C:\CirrusDSP\lib\dsplib\crystal32\cl_heapsteal.O
@@ -217,10 +215,10 @@ C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTe
      [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_close.o
      [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_frame_rate.o
      [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_getnchannels.o
-     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread
-     [exec] _number_of_frames.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_number_of_frames.o
      [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_open.o
-     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_recvsample.o
+     [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavread_recvsampl
+     [exec] e.o
      [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavwrite_close.o
      [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavwrite_open.o
      [exec] C:\CirrusDSP\lib\dsplib\crystal32\cl_wavwrite_sendsample.o
@@ -228,22 +226,22 @@ C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTe
 Creating .uld file...
 C:/CirrusDSP/bin/lnkuld
  -ja
- C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.img
- C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.uld
+ C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/WavTemplate.img
+ C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/WavTemplate.uld
      [exec] 
-     [exec] Reading file: C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.img ...
-     [exec] 	Processed 767 line(s).
+     [exec] Reading file: C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/WavTemplate.img ...
+     [exec] 	Processed 989 line(s).
      [exec] 
-     [exec] Writing output to file: C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder
-     [exec] /AADSP2/SULDWavTemplate/output/standalone/WavTemplate.uld ...
-     [exec] 
-     [exec] Done!
-     [exec] 
-     [exec] Writing output to file: C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.uldb ...
+     [exec] Writing output to file: C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/WavTemplate.uld ...
      [exec] 
      [exec] Done!
      [exec] 
-     [exec] Writing output to file: C:/Users/thedushn/Desktop/AADSP2/new_project/Zadatak/New folder/AADSP2/SULDWavTemplate/output/standalone/WavTemplate.uldc ...
+     [exec] Writing output to file: C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output
+     [exec] /standalone/WavTemplate.uldb ...
+     [exec] 
+     [exec] Done!
+     [exec] 
+     [exec] Writing output to file: C:/Users/thedushn/Desktop/ffsfasfas/AADSP2-master/SULDWavTemplate/output/standalone/WavTemplate.uldc ...
 
 BUILD SUCCESSFUL
-Total time: 5 seconds
+Total time: 22 seconds
